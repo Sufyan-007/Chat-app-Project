@@ -1,4 +1,4 @@
-package com.example.ChatApp.Spring;
+package com.ChatApp.Spring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
