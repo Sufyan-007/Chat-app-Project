@@ -1,5 +1,6 @@
 package com.ChatApp.Controllers;
 
+import com.ChatApp.Config.UserAuthenticationProvider;
 import com.ChatApp.Users.User;
 import com.ChatApp.Users.UserLoginDto;
 import com.ChatApp.Users.UserRegisterDto;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     private final UserService userService;
+    private final UserAuthenticationProvider userAuthenticationProvider;
 
 
     @GetMapping("/")
@@ -24,21 +26,22 @@ public class Controller {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> h(@RequestBody UserLoginDto userLoginDto){
+    public ResponseEntity<String> h(@RequestBody UserLoginDto userLoginDto){
 
         System.out.println("In controller");
-        return ResponseEntity.ok(userService.login(userLoginDto));
+        User user=userService.login(userLoginDto);
+        return ResponseEntity.ok(userAuthenticationProvider.createToken((user.getUsername())));
     }
 
 
     @PostMapping("/register")
 
-    public ResponseEntity<User> register(@RequestBody  UserRegisterDto userRegisterDto){
+    public ResponseEntity<String> register(@RequestBody  UserRegisterDto userRegisterDto){
         System.out.println();
         System.out.println(userRegisterDto);
         System.out.println();
         System.out.println();
         User user= userService.register(userRegisterDto);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userAuthenticationProvider.createToken(user.getUsername()));
     }
 }
