@@ -1,15 +1,16 @@
 package com.ChatApp.Users;
 
 import com.ChatApp.Exceptions.AppException;
-import com.ChatApp.Users.UserRepo;
-import com.ChatApp.Users.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,8 @@ public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
     public User register(UserRegisterDto userRegisterDto){
+        userRegisterDto.setUsername(userRegisterDto.getUsername().toLowerCase());
+        userRegisterDto.setEmail(userRegisterDto.getEmail().toLowerCase());
         Optional<User> optionalUser = userRepo.findByUsername(userRegisterDto.getUsername());
         if (optionalUser.isPresent()){
             throw new AppException("Username already exists", HttpStatus.CONFLICT);
@@ -34,6 +37,7 @@ public class UserService {
 
 
     public User login(UserLoginDto userLoginDto){
+        userLoginDto.setUsername(userLoginDto.getUsername().toLowerCase());
         User user= userRepo.findByUsername(userLoginDto.getUsername()).orElseThrow(
                 ()-> new AppException("User not found",HttpStatus.NOT_FOUND)
         );
@@ -48,11 +52,15 @@ public class UserService {
 
 
     public User findByUsername(String username) {
-        Optional<User> optionalUser = userRepo.findByUsername(username);
-        User user = optionalUser.orElseThrow(
+        username=username.toLowerCase();
+        return userRepo.findByUsername(username).orElseThrow(
                 ()-> new AppException("User not found",HttpStatus.NOT_FOUND)
         );
+    }
 
-        return user;
+    public List<UserDetailsDto> getUsers(String username) {
+        username=username.toLowerCase();
+        List<User> users= userRepo.findByUsernameStartsWith(username);
+        return User.convertToUserDetailsDto(users);
     }
 }

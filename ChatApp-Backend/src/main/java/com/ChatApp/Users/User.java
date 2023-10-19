@@ -1,4 +1,5 @@
 package com.ChatApp.Users;
+import com.ChatApp.Conversation.Conversation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -6,11 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@ToString
 @Table(name = "user_account")
 public class User {
 
@@ -37,6 +39,9 @@ public class User {
     @Size(max = 255)
     private String password;
 
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "participants")
+    private List<Conversation> conversations;
+
 
     public User(String username, String firstName, String lastName, String emailId, String password) {
         this.username = username;
@@ -44,5 +49,24 @@ public class User {
         this.lastName = lastName;
         this.emailId = emailId;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    public static List<UserDetailsDto> convertToUserDetailsDto(List<User> users){
+        return users.stream().map(User::convertToUserDetailsDto).toList();
+    }
+    public static UserDetailsDto convertToUserDetailsDto(User user){
+        return new UserDetailsDto(user.getUsername());
     }
 }
