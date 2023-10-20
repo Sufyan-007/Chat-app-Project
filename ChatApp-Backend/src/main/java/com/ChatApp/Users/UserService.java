@@ -10,6 +10,7 @@ import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,7 +61,7 @@ public class UserService {
 
     public List<UserDetailsDto> getUsers(String username) {
         username=username.toLowerCase();
-        List<User> users= userRepo.findByUsernameStartsWith(username);
+        Set<User> users= userRepo.findByUsernameStartsWith(username);
         return User.convertToUserDetailsDto(users);
     }
 }

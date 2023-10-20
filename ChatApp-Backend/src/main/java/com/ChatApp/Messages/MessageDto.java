@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString
 public class MessageDto {
     private String message;
-    private String sentBy;
+    private boolean media;
     private String sentTo;
     private int conversationId;
 

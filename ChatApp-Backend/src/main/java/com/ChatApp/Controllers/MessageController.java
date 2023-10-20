@@ -24,9 +24,21 @@ public class MessageController {
     private final UserAuthenticationProvider userAuthenticationProvider;
 
     @PostMapping("/sendmessage")
-    public ResponseEntity<String> sendMessage(@RequestBody MessageDto messageDto) {
-        System.out.println(messageDto);
-        messageService.newMessage(messageDto);
+    public ResponseEntity<String> sendMessage(@RequestBody MessageDto messageDto,@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
+        if(authorization==null){
+            throw new AppException("No authorization", HttpStatus.FORBIDDEN);
+        }
+        String token;
+        String[] tokens = authorization.split(" ");
+
+        if(tokens.length==2){
+            token = tokens[1];
+        }
+        else{
+            token = tokens[0];
+        }
+
+        messageService.newMessage(messageDto,userAuthenticationProvider.getUser(token));
         return ResponseEntity.ok("Stored message");
     }
 

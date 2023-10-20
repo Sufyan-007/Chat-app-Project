@@ -59,7 +59,6 @@ public class UserAuthenticationProvider {
         try {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decoded = verifier.verify(token);
-            decoded.getIssuer();
             return userService.findByUsername(decoded.getIssuer());
         }
         catch (Exception e) {

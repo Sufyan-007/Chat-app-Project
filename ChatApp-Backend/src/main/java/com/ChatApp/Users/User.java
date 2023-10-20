@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -59,11 +60,10 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", emailId='" + emailId + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 
-    public static List<UserDetailsDto> convertToUserDetailsDto(List<User> users){
+    public static List<UserDetailsDto> convertToUserDetailsDto(Set<User> users){
         return users.stream().map(User::convertToUserDetailsDto).toList();
     }
     public static UserDetailsDto convertToUserDetailsDto(User user){

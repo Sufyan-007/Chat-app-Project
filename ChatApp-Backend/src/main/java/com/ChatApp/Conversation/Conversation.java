@@ -40,7 +40,7 @@ public class Conversation {
 //            inverseJoinColumns = {@JoinColumn(name="user_id")}
 //
 //    )
-    private List<User> participants;
+    private Set<User> participants;
 
     public Conversation(){
 

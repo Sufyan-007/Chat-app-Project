@@ -30,7 +30,7 @@ public class SecurityFilter {
                 .authorizeHttpRequests(
                         (requests)->{
                             requests.requestMatchers(HttpMethod.GET,"/login","/register").permitAll()
-                                    .requestMatchers(HttpMethod.POST,"/register","/login").permitAll()
+                                    .requestMatchers(HttpMethod.POST,"/register","/login","/demo").permitAll()
                                     .anyRequest().authenticated();
 
 
