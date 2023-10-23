@@ -1,0 +1,89 @@
+<section *ngIf="login_page" class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+              <p class="text-white-50 mb-5">Please enter your login and password!</p>
+              <form #loginform="ngForm" (ngSubmit)="login() ">
+                <div class="form-floating mb-3 text-black-50">
+                  <input type="username" id="username" name="username" [(ngModel)]="loginDetails.username"
+                    #username="ngModel" required class="form-control" placeholder="Username">
+                  <label for="username">Username</label>
+                </div>
+                <div class="form-floating  mb-3 text-black-50">
+                  <input type="password" id="password" name="password" [(ngModel)]="loginDetails.password"
+                    #password="ngModel" required class="form-control " placeholder="Password">
+                  <label for="password">Password</label>
+                </div>
+                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                <button class="btn btn-outline-light btn-lg px-5 " type="submit">Login</button>
+              </form>
+            </div>
+            <div>
+              <p class="mb-0">Don't have an account? <a href="#" (click)="toggle_page()" class="text-white-50 fw-bold" >Sign Up</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section *ngIf="!login_page" class="vh-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div class="mb-md-5 mt-md-4 pb-2">
+
+              <h2 class="fw-bold mb-2 text-uppercase">Sign Up</h2>
+              <p class="text-white-50 mb-5">Please enter your details!</p>
+              <form #loginform="ngForm" (ngSubmit)="signup() ">
+
+                <div class="form-floating mb-3 text-black-50">
+                  <input type="name" id="name" name="name" [(ngModel)]="signupDetails.firstName"
+                    #username="ngModel" required class="form-control" placeholder="Name">
+                  <label for="username">Name</label>
+                </div>
+
+                <div class="form-floating mb-3 text-black-50">
+                  <input type="username" id="username" name="username" [(ngModel)]="signupDetails.username"
+                    #username="ngModel" required class="form-control" placeholder="Username">
+                  <label for="username">Username</label>
+                </div>
+
+                <div class="form-floating mb-3 text-black-50">
+                  <input type="email" id="email" name="email" [(ngModel)]="signupDetails.email"
+                    #username="ngModel" required class="form-control" placeholder="Email">
+                  <label for="username">Email</label>
+                </div>
+
+                <div class="form-floating  mb-3 text-black-50">
+                  <input type="password" id="password" name="password" [(ngModel)]="signupDetails.password"
+                    #password="ngModel" required class="form-control" placeholder="Password">
+                  <label for="password">Password</label>
+                </div>
+
+                <p class="small m-1 pb-2 mb-3"><a class="text-white-50" href="#" (click)="toggle_page()">Already have an account?</a></p>
+
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">Sign Up</button>
+
+              </form>
+
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
