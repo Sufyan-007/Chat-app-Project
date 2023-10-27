@@ -7,19 +7,30 @@
             <div class="mb-md-5 mt-md-4 pb-5">
               <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
               <p class="text-white-50 mb-5">Please enter your login and password!</p>
-              <form #loginform="ngForm" (ngSubmit)="login() ">
-                <div class="form-floating mb-3 text-black-50">
+              <form #loginForm="ngForm" (ngSubmit)="login(loginForm) ">
+                <div class="form-floating mb-1 text-black-50">
                   <input type="username" id="username" name="username" [(ngModel)]="loginDetails.username"
                     #username="ngModel" required class="form-control" placeholder="Username">
                   <label for="username">Username</label>
                 </div>
-                <div class="form-floating  mb-3 text-black-50">
+                <div *ngIf="username.invalid && username.touched" class="text-danger fs-6">
+                  Please Enter your Username 
+                </div>
+                <div class="form-floating mt-3 mb-1 text-black-50 ">
                   <input type="password" id="password" name="password" [(ngModel)]="loginDetails.password"
                     #password="ngModel" required class="form-control " placeholder="Password">
                   <label for="password">Password</label>
                 </div>
-                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
-                <button class="btn btn-outline-light btn-lg px-5 " type="submit">Login</button>
+                <div *ngIf="password.invalid && password.touched" class=" text-danger fs-6">
+                  Please Enter your Password
+                </div>
+
+                <p class="small mt-3 mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                <div *ngIf="loginForm.form.invalid && loginForm.touched && password.valid && username.valid" class=" text-danger fs-6">
+                  Invalid Credentials
+                </div>
+
+                <button [disabled]="loginForm.form.invalid && (loginForm.form.pristine||loginForm.form.touched)" class="btn btn-outline-light btn-lg px-5 " type="submit">Login</button>
               </form>
             </div>
             <div>

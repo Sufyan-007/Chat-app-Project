@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* body{
+    --bg-color: rgb(118, 127, 135);
+    --bg-color-inv: rgb(35,37,40);
+    --text-color: black;
+    --text-color-inv: white;
+}
+body.dark-theme{
+    --bg-color: rgb(35,37,40);
+    --bg-color-inv: rgb(118, 127, 135);
+    --text-color: white;
+    --text-color-inv: black;
+}
+
+.bg-color{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+.bg-color-inv{
+    background-color: var(--bg-color-inv);
+    color: var(--text-color-inv);
+} */
+
+html{
+    height: 100%;
+}

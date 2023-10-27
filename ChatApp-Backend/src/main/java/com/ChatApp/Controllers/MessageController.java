@@ -49,14 +49,13 @@ public class MessageController {
         }
         String token;
         String[] tokens = authorization.split(" ");
-
         if(tokens.length==2){
             token = tokens[1];
         }
         else{
             token = tokens[0];
         }
-        List<ConversationDto> conversations = conversationService.getConversations(userAuthenticationProvider.getUser(token));
+            List<ConversationDto> conversations = conversationService.getConversations(userAuthenticationProvider.getUser(token));
         return ResponseEntity.ok(conversations);
 
     }

@@ -1,3 +1,10 @@
 <!DOCTYPE html>
-<app-navbar></app-navbar>
-<p>chatsbase works!</p>
+
+
+<div class="container-fluid h-100 py-0 flex-column d-flex"> 
+    <app-navbar class="row"></app-navbar>
+    <div class="row flex-grow-1">
+        <app-chats class="col-3 p-0"></app-chats>
+        <app-conversation class="col p-0 "></app-conversation>
+    </div>
+</div>

@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ChatsComponent } from './chats/chats.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 
 @NgModule({
@@ -18,6 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     ChatsbaseComponent,
     LoginComponent,
     SignupComponent,
+    ChatsComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,

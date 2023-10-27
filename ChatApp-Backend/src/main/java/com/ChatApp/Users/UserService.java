@@ -40,14 +40,15 @@ public class UserService {
     public User login(UserLoginDto userLoginDto){
         userLoginDto.setUsername(userLoginDto.getUsername().toLowerCase());
         User user= userRepo.findByUsername(userLoginDto.getUsername()).orElseThrow(
-                ()-> new AppException("User not found",HttpStatus.NOT_FOUND)
+                ()-> new AppException("User not found",HttpStatus.UNAUTHORIZED)
         );
 
         if( passwordEncoder.matches(CharBuffer.wrap(userLoginDto.getPassword()),user.getPassword())){
+            System.out.println(user.getConversations().size());
             return user;
         }
 
-        throw new AppException("Incorrect password",HttpStatus.FORBIDDEN);
+        throw new AppException("Incorrect password",HttpStatus.UNAUTHORIZED);
 
     }
 

@@ -1,5 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,9 +19,12 @@ export class LoginComponent {
   }
   private signup_url:string="http://localhost:8080/register"
   
+  
 
 
   login_page = true;
+
+
 
   loginDetails={
     username:"",
@@ -41,7 +45,10 @@ export class LoginComponent {
     this.login_page = !this.login_page;
   }
 
-  login (){
+  login (loginForm:NgForm){
+    // loginForm.form.controls['username'].setErrors({'incorrect': true});
+    // console.log(loginForm.form.controls['username'].invalid);
+    
     console.log(this.loginDetails);
     const data=JSON.stringify(this.loginDetails);
     const headers=new HttpHeaders({
@@ -50,17 +57,22 @@ export class LoginComponent {
     })
 
     this.http.post(this.login_url,data,{headers,responseType:'text'}).subscribe(response=>{
-      console.log(data);
-      localStorage.setItem("token","Bearer "+response)
-        
+        console.log(data);
+        localStorage.setItem("token","Bearer "+response)
         var url=localStorage.getItem("redirectUrl")
-        if(url==null)
-        {
+        if(url==null){
           url="/home"
         }
         localStorage.removeItem("redirectUrl")
         this.router.navigate([url])
-    })
+      },
+      error=>{
+        if(error.status==401){
+          loginForm.form.setErrors({'incorrect':true});
+        }
+      }
+
+    );
 
   }
 

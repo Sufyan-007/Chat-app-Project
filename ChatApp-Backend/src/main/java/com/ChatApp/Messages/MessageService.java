@@ -43,8 +43,6 @@ public class MessageService {
 
 //            conversation=conversationRepo.findById(conversation.getId()).orElseThrow();
         }
-
-
         Message message= Message.builder()
                 .media(false)
                 .conversation(conversation)

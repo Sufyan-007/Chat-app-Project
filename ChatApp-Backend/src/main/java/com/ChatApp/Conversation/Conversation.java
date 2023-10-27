@@ -18,8 +18,6 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 public class Conversation {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

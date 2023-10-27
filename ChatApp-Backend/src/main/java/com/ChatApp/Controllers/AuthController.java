@@ -30,7 +30,7 @@ public class AuthController {
 
         System.out.println("In controller");
         User user=userService.login(userLoginDto);
-        return ResponseEntity.ok(userAuthenticationProvider.createToken((user.getUsername())));
+        return ResponseEntity.ok(userAuthenticationProvider.createToken(user.getUsername()));
     }
 
 
