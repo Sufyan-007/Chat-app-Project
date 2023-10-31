@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Conversation } from '../interface/conversation';
 
 @Component({
   selector: 'app-chatsbase',
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./chatsbase.component.css']
 })
 export class ChatsbaseComponent implements OnInit{
+  selectedConv!:Conversation;
 
   constructor(private router:Router){}
 
@@ -20,6 +22,10 @@ export class ChatsbaseComponent implements OnInit{
     }
 
   }
+  convSelect(event: Conversation) {
+    this.selectedConv = event;
+  }
+    
 
 
 }

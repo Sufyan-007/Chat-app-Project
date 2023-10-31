@@ -1,29 +1,45 @@
 <!DOCTYPE html>
-<div class="container-fluid h-100 w-100 flex-column d-flex bg-dark text-light border-2 border-dark-subtle border-end border-top">
-    <div class="row  ">
-        Chat
-        <!-- <div class="navbar ">
-            <div class="container-fluid">
-                <div>
-                    Chats
+<div class="row h-100">
+    <div class="container-fluid h-100 w-100 flex-column d-flex bg-dark text-light border-2 border-dark-subtle border-end border-top">
+        <div class="row  ">
+            Chat
+            <!-- <div class="navbar ">
+                <div class="container-fluid">
+                    <div>
+                        Chats
+                    </div>
+                    <button>
+                        Add
+                    </button>
                 </div>
-                <button>
-                    Add
-                </button>
-            </div>
-        </div>  -->
-    </div>
-    <div class="row flex-grow-1 mt-4">
-        <div class="col">
-            <div class="conversation row px-1">
-                <img class="col-2 imgsize p-0 h-75" src="../../assets/Icons/person-circle.svg" alt="">
-                <div class="col">
-                    Username
-                </div>
-            </div>
-            
+            </div>  -->
         </div>
-    </div>
-      
+        <div class="row flex-grow-1 mt-4">
+            <div class="col">
+                <!-- <div class="conversation row px-1 my-2 align-items-center">
+                    <img class="col-2 imgsize p-0 h-75" src="../../assets/Icons/person-circle.svg" alt="">
+                    <div class="col">
+                        Username
+                    </div>
+                </div> -->
+                <div *ngFor="let conversation of conversations | async" class=" row p-1 d-flex align-items-center">
+                    <div class="conversation  d-flex p-0 align-items-center w-100 user-select-none"
+                        (click)="open(conversation)"
+                        [class.active]="conversation.id===activeConversationId"
+                    >
+                        <img class="col-2  p-0 h-75 me-2" src="../../assets/Icons/person-circle.svg" alt="">
+                        <div class="col">
+                            <div class="fs-6 p-0 m-0">
+                                {{conversation.conversationName|titlecase }}
+                            </div>
+                            <div class="fs-7 p-0">
+                                {{conversation.latestMessage}}
+                            </div>
+                        </div>
+                    </div>
+</div>
+            </div> 
+        </div>
+    </div>      
 </div>
 

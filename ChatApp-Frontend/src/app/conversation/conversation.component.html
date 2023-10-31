@@ -1,3 +1,47 @@
-<div class="h-100 w-100 bg-dark-subtle">
-    Conversation
+
+<div *ngIf="conversation" class="row h-100">
+    <div class="container  h-100 d-flex flex-column ">
+        <div class="navbar bg-dark-subtle row p-0">
+            <div class="container-fluid p-0">
+                <div class="profile align-items-center justify-content-center d-flex">
+                    <img class="h-75 m-1" src="../../assets/Icons/person-circle.svg" alt="">
+                    {{conversation.conversationName|titlecase}}
+                </div>
+                
+            </div>
+        </div>
+    
+        <div #chatbox class="row flex-grow-1 overflow-scroll  justify-content-center">
+            
+            <div class="col-11 messages mt-auto ">
+                <div *ngFor="let message of messages" class="row my-5 " [class.flex-row-reverse]="message.self">
+                    <img class="col-1  p-0 profile-icon bg-dark  mx-2" src="../../assets/Icons/person-circle.svg" alt="">
+                    <div class="col col-6 ">
+                        <div class="row fs-7 " [class.justify-content-end]="message.self">
+                            <div class="col-auto fw-bold pe-1">{{message.sender.username}}</div>
+                            {{message.sentAt | date:"shortTime"}}
+                        </div>
+                        <div class="row" [class.justify-content-end]="message.self">
+                            <div class="col col-auto m-2 p-2 bg-dark-subtle rounded-2">
+                                {{message.message}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+     
+            </div>
+        </div>
+    
+        <div class="row footer bg-light justify-content-center">
+            <div class="col-11 d-flex">
+                <div class="input-group text-input my-2 align-items-center">
+                    <input type="text" class="form-control bg-dark-subtle border-3 border-white rounded-5 shadow-none"
+                     placeholder="Type Message" [(ngModel)]="messageInput" (keydown.enter)="sendMessage(messageInput)" >
+                    <button class="btn rounded-5 h-75 p-0 ratio-1x1 border-0" [disabled]=!messageInput (click)="sendMessage(messageInput)">
+                        <img class="h-100 ps-2 py-1" src="../../assets/Icons/paper-plane-svgrepo-com.svg"> 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

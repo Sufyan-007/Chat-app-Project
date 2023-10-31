@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class MessageDto {
+public class SendMessageDto {
     private String message;
     private boolean media;
     private String sentTo;

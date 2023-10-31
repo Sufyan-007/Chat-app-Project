@@ -7,11 +7,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +26,7 @@ public class UserService {
         }
         User user= new User(
                 userRegisterDto.getUsername(),
-                userRegisterDto.getFirstName(),
-                userRegisterDto.getLastName(),
+                userRegisterDto.getName(),
                 userRegisterDto.getEmail(),
                 passwordEncoder.encode(CharBuffer.wrap(userRegisterDto.getPassword()))
         );
@@ -60,9 +57,9 @@ public class UserService {
         );
     }
 
-    public List<UserDetailsDto> getUsers(String username) {
+    public List<UserDetailsDto>     getUsers(String username) {
         username=username.toLowerCase();
-        Set<User> users= userRepo.findByUsernameStartsWith(username);
+        Set<User> users= userRepo.findTop10ByUsernameStartsWith(username);
         return User.convertToUserDetailsDto(users);
     }
 }

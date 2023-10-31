@@ -6,13 +6,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Table
 @Data
@@ -47,7 +44,7 @@ public class Message {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    private boolean achievable=false;
+    private boolean achievable =false;
 
 
     @Override

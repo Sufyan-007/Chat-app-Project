@@ -8,5 +8,4 @@ import java.util.List;
 public interface MessageRepo extends JpaRepository<Message,Integer> {
     List<Message> findByConversation(Conversation conversation);
 
-
 }

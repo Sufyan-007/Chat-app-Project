@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -8,12 +8,25 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
+  ngOnInit(): void {
+    if(localStorage.getItem("token") != null){
+      console.log("Init")
+      this.router.navigate(["/home"]);
+    }
+    else{
+      console.log("else")
+    }
+  }
+
+  constructor(private http:HttpClient, private router:Router) {
+    
+  }
 
   signupDetails={
     "username":"",
-    "firstName":"",
-    "lastName":"",
+    "name":"",
     "email":"",
     "password":""
   }
@@ -37,9 +50,7 @@ export class LoginComponent {
   
 
 
-  constructor(private http:HttpClient, private router:Router) {
-    
-  }
+  
   toggle_page(){
     console.log(this.login_page);
     this.login_page = !this.login_page;
@@ -59,6 +70,7 @@ export class LoginComponent {
     this.http.post(this.login_url,data,{headers,responseType:'text'}).subscribe(response=>{
         console.log(data);
         localStorage.setItem("token","Bearer "+response)
+        localStorage.setItem("user",this.loginDetails.username)
         var url=localStorage.getItem("redirectUrl")
         if(url==null){
           url="/home"

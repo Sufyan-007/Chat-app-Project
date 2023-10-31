@@ -13,6 +13,5 @@ public class ConversationDto {
     private boolean groupChat;
     private List<UserDetailsDto> users;
     private String latestMessage;
-
-
+    private String conversationName;
 }

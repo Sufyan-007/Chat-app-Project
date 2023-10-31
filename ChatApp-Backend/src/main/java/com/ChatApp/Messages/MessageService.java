@@ -8,7 +8,6 @@ import com.ChatApp.Users.User;
 import com.ChatApp.Users.UserRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-
+@Transactional
 public class MessageService {
     private final MessageRepo messageRepo;
     private final ConversationRepo conversationRepo;
@@ -26,15 +25,15 @@ public class MessageService {
 
 
     @Transactional
-    public Message newMessage(MessageDto messageDto, User sender) {
+    public Message newMessage(SendMessageDto sendMessageDto, User sender) {
         Conversation conversation;
-        if (messageDto.getConversationId()>0) {
-            conversation = conversationRepo.findById(messageDto.getConversationId()).orElseThrow(
+        if (sendMessageDto.getConversationId()>0) {
+            conversation = conversationRepo.findById(sendMessageDto.getConversationId()).orElseThrow(
                     () -> new AppException("Conversation does not exist", HttpStatus.NOT_FOUND)
             );
         }
         else{
-            User receiver= userRepo.findByUsername(messageDto.getSentTo()).orElseThrow(
+            User receiver= userRepo.findByUsername(sendMessageDto.getSentTo()).orElseThrow(
                     ()->new AppException("Receiver does not exist",HttpStatus.NOT_FOUND)
             );
             conversation= Conversation.builder().groupChat(false).participants(Set.of(sender,receiver)).build();
@@ -46,7 +45,7 @@ public class MessageService {
         Message message= Message.builder()
                 .media(false)
                 .conversation(conversation)
-                .message(messageDto.getMessage())
+                .message(sendMessageDto.getMessage())
                 .sender(sender)
                 .build();
 
@@ -54,12 +53,19 @@ public class MessageService {
 
         message= messageRepo.save(message);
         conversation.setLatestMessage(message);
-        System.out.println(conversation);
+
 
         conversation = conversationRepo.save(conversation);
-        System.out.println(conversation);
+
         receivedMessageService.send(message,conversation);
         return  message;
 
+    }
+
+    public List<Message> findMessageByConv(int conversationId, User user) {
+        Conversation conversation = conversationRepo.findById(conversationId).orElseThrow(()->
+                new AppException("Conversation not found",HttpStatus.NOT_FOUND)
+        );
+        return messageRepo.findByConversation(conversation);
     }
 }

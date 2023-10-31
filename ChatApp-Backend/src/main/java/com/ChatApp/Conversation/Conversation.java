@@ -22,6 +22,7 @@ public class Conversation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String conversationName;
     private boolean groupChat;
 
     @JoinColumn
@@ -49,23 +50,30 @@ public class Conversation {
         return "Conversation{" +
                 "id=" + id +
                 ", groupChat=" + groupChat +
-                ", latestMessage=" + latestMessage +
+                ", latestMessage=" + latestMessage.getMessage() +
                 ", createdAt=" + createdAt +
+                ", conversationName=" + conversationName +
                 '}';
     }
 
-    public static ConversationDto convertToConversationDto(Conversation conversation){
+    public static ConversationDto convertToConversationDto(Conversation conversation, User user){
         String message="";
         if(conversation.getLatestMessage()!=null){
             message = conversation.getLatestMessage().getMessage();
         }
-
+        String conversationName;
+        if(conversation.isGroupChat()){
+            conversationName = conversation.getConversationName();
+        }else{
+            Set<User> users=conversation.getParticipants();
+            conversationName = users.stream().filter((user1) -> !user1.getUsername().equals(user.getUsername())).findFirst().get().getUsername();
+        }
         return new ConversationDto(conversation.getId(), conversation.isGroupChat(),
-                User.convertToUserDetailsDto(conversation.getParticipants()),message);
+                User.convertToUserDetailsDto(conversation.getParticipants()),message,conversationName);
     }
 
-    public static List<ConversationDto> convertToConversationDto(List<Conversation> conversations){
-        return conversations.stream().map(Conversation::convertToConversationDto).toList();
+    public static List<ConversationDto> convertToConversationDto(List<Conversation> conversations,User user){
+        return conversations.stream().map((conversation -> Conversation.convertToConversationDto(conversation,user))).toList();
     }
 
 }
