@@ -7,10 +7,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ChatsbaseComponent } from './chatsbase/chatsbase.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ChatsComponent } from './chats/chats.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { HttpCustomInterceptor } from './http-interceptor.interceptor';
 
 
 @NgModule({
@@ -30,7 +31,9 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS, useClass:HttpCustomInterceptor, multi:true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

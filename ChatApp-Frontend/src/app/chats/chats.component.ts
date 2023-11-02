@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterContentChecked, Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { ConversationService } from '../service/conversation.service';
 import { Observable } from 'rxjs';
 import { Conversation } from '../interface/conversation';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './chats.component.html',
   styleUrls: ['./chats.component.css']
 })
-export class ChatsComponent implements OnInit {
+export class ChatsComponent implements OnInit{
   activeConversationId!:number;
 
   @Output() selectConv= new EventEmitter();

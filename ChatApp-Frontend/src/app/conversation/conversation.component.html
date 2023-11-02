@@ -15,7 +15,7 @@
             
             <div class="col-11 messages mt-auto ">
                 <div *ngFor="let message of messages" class="row my-5 " [class.flex-row-reverse]="message.self">
-                    <img class="col-1  p-0 profile-icon bg-dark  mx-2" src="../../assets/Icons/person-circle.svg" alt="">
+                    <img class="col-1  p-0 profile-icon  mx-2" src="{{message.sender.profileIcon}}" alt="">
                     <div class="col col-6 ">
                         <div class="row fs-7 " [class.justify-content-end]="message.self">
                             <div class="col-auto fw-bold pe-1">{{message.sender.username}}</div>

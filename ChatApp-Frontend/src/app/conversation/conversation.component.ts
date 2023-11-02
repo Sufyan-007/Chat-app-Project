@@ -29,6 +29,7 @@ export class ConversationComponent implements OnInit, OnChanges,AfterViewChecked
     }
   }
   ngAfterViewChecked(): void {
+    
     if(this.chatbox){
       this.chatbox.nativeElement.scrollTop=this.chatbox.nativeElement.scrollHeight;
     }

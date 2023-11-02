@@ -41,7 +41,7 @@ public class UserService {
         );
 
         if( passwordEncoder.matches(CharBuffer.wrap(userLoginDto.getPassword()),user.getPassword())){
-            System.out.println(user.getConversations().size());
+
             return user;
         }
 

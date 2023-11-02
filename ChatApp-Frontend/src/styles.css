@@ -30,10 +30,13 @@ html{
     line-height: 16px;
 }
 
+
 .profile-icon{
-    height: 2.5rem;
-    /* background-color: bisque; */
-    width: 2.5rem;
-    border-radius: 1.25rem;
-    transform: scale();
+    background-image:url( "/assets/Icons/person-circle.svg");
+    background-size: 100% 100%;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+    background-color: lightgrey;
+    
 }

@@ -1,6 +1,5 @@
-.profile-icon{
-    background-image:url( "../../assets/Icons/person-circle.svg");
-    background-size: 100% 100%;
-    width: 1.75rem;
-    height: 1.75rem;
+
+.searchbar{
+    height: 2.5rem; 
+    z-index: 2;
 }
