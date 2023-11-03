@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Conversation } from '../interface/conversation';
+import { WebSocketService } from '../service/web-socket.service';
 
 @Component({
   selector: 'app-chatsbase',
@@ -10,7 +11,7 @@ import { Conversation } from '../interface/conversation';
 export class ChatsbaseComponent implements OnInit{
   selectedConv!:Conversation;
 
-  constructor(private router:Router){}
+  constructor(private router:Router, private websocketService:WebSocketService){}
 
   ngOnInit(): void {
     if(localStorage.getItem("token") == null){
@@ -18,7 +19,7 @@ export class ChatsbaseComponent implements OnInit{
       this.router.navigate(["/"]);
     }
     else{
-      console.log("else")
+      this.websocketService.connectToServer();
     }
 
   }

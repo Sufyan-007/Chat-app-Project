@@ -56,7 +56,7 @@ export class ConversationService {
     return this.http.get<Messages[]>(url, { headers: headers }).pipe(
       map((messages) => {
         return messages.map((message) => {
-          if (message.sender.username === localStorage.getItem('user')) {
+          if (message.sender.username === localStorage.getItem('username')) {
             message.self = true;
           }
           return message;

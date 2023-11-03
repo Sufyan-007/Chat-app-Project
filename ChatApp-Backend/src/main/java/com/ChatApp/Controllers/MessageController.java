@@ -9,6 +9,8 @@ import com.ChatApp.Messages.MessageDto;
 import com.ChatApp.Messages.SendMessageDto;
 import com.ChatApp.Messages.MessageService;
 import com.ChatApp.Users.User;
+import com.ChatApp.WebSocket.WebSocketConfig;
+import com.ChatApp.WebSocket.WebSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+
 public class MessageController {
     private final MessageService messageService;
     private final ConversationService conversationService;
     private final UserAuthenticationProvider userAuthenticationProvider;
+    private final WebSocketService webSocketService;
 
     @PostMapping("/sendmessage")
     public ResponseEntity<MessageDto> sendMessage(@RequestBody SendMessageDto sendMessageDto, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
@@ -59,6 +63,12 @@ public class MessageController {
         List<Message> messages = messageService.findMessageByConv(conversationId,user);
 
         return ResponseEntity.ok(MessageDto.convertToMessageDto(messages));
+    }
+
+    @GetMapping("/demo")
+    public String getDemo(){
+        webSocketService.sendMessage("hello","Hello");
+        return "Hello";
     }
 
 }

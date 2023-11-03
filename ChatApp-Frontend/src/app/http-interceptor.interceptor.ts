@@ -19,7 +19,7 @@ export class HttpCustomInterceptor implements HttpInterceptor {
     console.log('Intercepted request');
     return next.handle(request).pipe(
       catchError((error) => {
-        if (error.code == 403) {
+        if (error.status === 403) {
           console.log('Error');
           alert('You have been Logged out');
           localStorage.removeItem('token');

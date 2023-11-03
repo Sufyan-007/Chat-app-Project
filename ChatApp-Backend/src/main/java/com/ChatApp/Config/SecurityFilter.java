@@ -11,19 +11,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import com.ChatApp.Config.UserAuthenticationProvider;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityFilter {
+
     private final UserAuthenticationProvider userAuthenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
          http
-                 //.cors(withDefaults())
+//                .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class)
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -31,6 +33,7 @@ public class SecurityFilter {
                 .authorizeHttpRequests(
                         (requests)->{
                             requests.requestMatchers(HttpMethod.GET,"/login","/register").permitAll()
+                                    .requestMatchers("/ws/**").permitAll()
                                     .requestMatchers(HttpMethod.POST,"/register","/login","/demo").permitAll()
                                     .anyRequest().authenticated();
 

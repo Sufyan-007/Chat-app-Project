@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserServiceService } from '../service/user-service.service';
+import { UserService } from '../service/user.service';
 import { Observable, Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
 import { User } from '../interface/user';
 
@@ -21,7 +21,7 @@ export class SearchBarComponent {
     // })
     
   )
-  constructor(private userService: UserServiceService){
+  constructor(private userService: UserService){
     this.results.subscribe(results =>this.Results=results);
   }
 

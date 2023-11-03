@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ConversationService } from '../service/conversation.service';
 import { Conversation } from '../interface/conversation';
 import { Messages } from '../interface/messages';
@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.css']
 })
-export class ConversationComponent implements OnInit, OnChanges,AfterViewChecked {
+export class ConversationComponent implements OnInit, OnChanges,AfterViewInit,AfterViewChecked {
   @Input() conversation!:Conversation;
   @ViewChild("chatbox") private chatbox!:ElementRef ;
   
@@ -27,9 +27,19 @@ export class ConversationComponent implements OnInit, OnChanges,AfterViewChecked
     if(this.conversation){
        this.refreshConversation()
     }
-  }
-  ngAfterViewChecked(): void {
     
+  }
+  ngAfterViewInit(): void {
+    // this.scrollToBottom()
+  }
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom()
+  }
+
+
+  scrollToBottom(): void {
+
     if(this.chatbox){
       this.chatbox.nativeElement.scrollTop=this.chatbox.nativeElement.scrollHeight;
     }

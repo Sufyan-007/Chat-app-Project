@@ -14,9 +14,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+
     private final UserAuthenticationProvider userAuthenticationProvider;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("In filter JWT");
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if(authHeader != null){
             String[] authToken= authHeader.split(" ");

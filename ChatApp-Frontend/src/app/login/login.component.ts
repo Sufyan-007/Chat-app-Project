@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
     this.http.post(this.login_url,data,{headers,responseType:'text'}).subscribe(response=>{
         console.log(data);
         localStorage.setItem("token","Bearer "+response)
-        localStorage.setItem("user",this.loginDetails.username)
+        localStorage.setItem("username",this.loginDetails.username.toLowerCase())
         var url=localStorage.getItem("redirectUrl")
         if(url==null){
           url="/home"
