@@ -1,6 +1,6 @@
 import { AfterContentChecked, Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { ConversationService } from '../service/conversation.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Conversation } from '../interface/conversation';
 import { Router } from '@angular/router';
 
@@ -9,18 +9,28 @@ import { Router } from '@angular/router';
   templateUrl: './chats.component.html',
   styleUrls: ['./chats.component.css']
 })
-export class ChatsComponent implements OnInit{
+export class ChatsComponent implements OnInit,OnDestroy{
   activeConversationId!:number;
 
   @Output() selectConv= new EventEmitter();
 
   constructor(private conversationService: ConversationService, private router:Router){}
 
-  conversations?: Observable<Conversation[]>;
+  conversations: Conversation[]=[];
+  conversationSubject!: Subject<Record<Conversation["id"],Conversation>>;
+
+  ngOnDestroy(): void {
+      this.conversationSubject.unsubscribe();
+  }
 
   ngOnInit(): void {
     
-    this.conversations=this.conversationService.getConversations()
+    this.conversationSubject= this.conversationService.getConversations()
+    this.conversationSubject.subscribe((convs)=>{
+      Object.values(convs).forEach((conv)=>{
+        this.conversations.push(conv);
+      })
+    })
   }
 
   open(conversation:Conversation){

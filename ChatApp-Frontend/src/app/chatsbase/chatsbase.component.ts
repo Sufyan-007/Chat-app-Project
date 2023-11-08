@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Conversation } from '../interface/conversation';
 import { WebSocketService } from '../service/web-socket.service';
+import { Observable } from 'rxjs';
+import { Messages } from '../interface/messages';
 
 @Component({
   selector: 'app-chatsbase',
   templateUrl: './chatsbase.component.html',
   styleUrls: ['./chatsbase.component.css']
 })
-export class ChatsbaseComponent implements OnInit{
+export class ChatsbaseComponent implements OnInit,OnDestroy{
   selectedConv!:Conversation;
+
 
   constructor(private router:Router, private websocketService:WebSocketService){}
 
@@ -19,14 +22,16 @@ export class ChatsbaseComponent implements OnInit{
       this.router.navigate(["/"]);
     }
     else{
-      this.websocketService.connectToServer();
     }
 
   }
   convSelect(event: Conversation) {
     this.selectedConv = event;
   }
+
+  ngOnDestroy(): void {
     
+  }
 
 
 }

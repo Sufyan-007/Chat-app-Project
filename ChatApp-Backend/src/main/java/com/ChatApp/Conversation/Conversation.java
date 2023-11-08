@@ -2,6 +2,7 @@ package com.ChatApp.Conversation;
 
 import com.ChatApp.Messages.Message;
 import com.ChatApp.Users.User;
+import com.ChatApp.Users.UserDetailsDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -69,7 +70,7 @@ public class Conversation {
             conversationName = users.stream().filter((user1) -> !user1.getUsername().equals(user.getUsername())).findFirst().get().getUsername();
         }
         return new ConversationDto(conversation.getId(), conversation.isGroupChat(),
-                User.convertToUserDetailsDto(conversation.getParticipants()),message,conversationName);
+                UserDetailsDto.convertToUserDetailsDto(conversation.getParticipants()),message,conversationName);
     }
 
     public static List<ConversationDto> convertToConversationDto(List<Conversation> conversations,User user){

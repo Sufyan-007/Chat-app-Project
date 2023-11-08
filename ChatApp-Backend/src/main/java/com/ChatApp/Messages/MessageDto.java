@@ -18,15 +18,18 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class MessageDto {
+    private int conversationId;
     private String message;
     private boolean media;
     private UserDetailsDto sender;
+
     private Timestamp sentAt;
     private Timestamp updatedAt;
 
     public static MessageDto convertToMessageDto(Message message){
         return new MessageDto(
-                message.getMessage(),message.isMedia(),User.convertToUserDetailsDto( message.getSender()),
+                message.getConversation().getId(),
+                message.getMessage(),message.isMedia(),UserDetailsDto.convertToUserDetailsDto( message.getSender()),
                 message.getSentAt(),message.getUpdatedAt()
         );
     }

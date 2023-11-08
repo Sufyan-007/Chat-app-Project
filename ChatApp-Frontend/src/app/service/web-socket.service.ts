@@ -2,8 +2,9 @@
 import { Injectable } from '@angular/core';
 import  * as SockJS from 'sockjs-client';
 // import * as Stomp from 'stompjs';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as Stomp from "stompjs";
+import { Messages } from '../interface/messages';
 // import * as SockJS from "so
 
 @Injectable({
@@ -17,19 +18,27 @@ export class WebSocketService{
     setTimeout(this.connectToServer.bind(this),5000)
   }
 
-  constructor() { 
-    
+  recievedMessage:Subject<Messages> = new Subject<Messages>();
 
+  constructor() { 
+    this.connectToServer()
   }
   connectToServer() {
     const username=localStorage.getItem("username")
     this.stompClient.connect({},()=>{
 
       this.stompClient.subscribe("/topic/chat/"+username,(data:any)=>{
-        console.log(data);
+        // console.log(data.body);
+        this.recievedMessage.next(JSON.parse(data.body));
+        
       })
     },
     this.failCallback
     );
   }
+
+  getRecievedMessage(){
+    return this.recievedMessage
+  }
+
 }

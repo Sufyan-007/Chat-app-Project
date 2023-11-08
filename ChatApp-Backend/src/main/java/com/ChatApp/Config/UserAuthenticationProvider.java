@@ -48,7 +48,15 @@ public class UserAuthenticationProvider {
     }
 
     public Authentication validateToken(String token) {
-        return new UsernamePasswordAuthenticationToken(getUser(token), null, Collections.emptyList());
+        try {
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT decoded = verifier.verify(token);
+            return new UsernamePasswordAuthenticationToken(decoded.getIssuer(), null, Collections.emptyList());
+        }
+        catch (Exception e) {
+            throw new AppException("Invalid token", HttpStatus.FORBIDDEN);
+        }
+
     }
 
     public User getUser(String token) {

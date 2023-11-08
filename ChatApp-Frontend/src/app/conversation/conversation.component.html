@@ -11,11 +11,11 @@
             </div>
         </div>
     
-        <div #chatbox class="row flex-grow-1 overflow-scroll  justify-content-center">
+        <div #chatbox class="row flex-grow-1 overflow-x-hidden chatbox  justify-content-center">
             
-            <div class="col-11 messages mt-auto ">
+            <div class="col-11  mt-auto ">
                 <div *ngFor="let message of messages" class="row my-5 " [class.flex-row-reverse]="message.self">
-                    <img class="col-1  p-0 profile-icon  mx-2" src="{{message.sender.profileIcon}}" alt="">
+                    <img class="col-1  p-0 profile-icon  mx-2" src="{{message.sender.profilePictureUrl}}" onerror="this.src='../../assets/Icons/person-circle.svg'">
                     <div class="col col-6 ">
                         <div class="row fs-7 " [class.justify-content-end]="message.self">
                             <div *ngIf="!message.self" class="col-auto fw-bold pe-1">{{message.sender.username}}</div>

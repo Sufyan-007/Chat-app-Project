@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Conversation } from '../interface/conversation';
 import {
   BehaviorSubject,
@@ -10,18 +10,49 @@ import {
 } from 'rxjs';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Messages } from '../interface/messages';
+import { WebSocketService } from './web-socket.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConversationService {
-  constructor(private http: HttpClient) {}
+export class ConversationService implements OnDestroy{
 
-  conversations?: Conversation[];
-  result = new BehaviorSubject<Conversation[]>([]);
+  //Data
+  conversations: Record<Conversation["id"],Conversation> = {};
+  allMessages: Record<Conversation["id"],Messages[]> = {};
 
-  getConversations(): Observable<Conversation[]> {
-    if (!this.conversations) {
+
+  //Subjects
+  result = new BehaviorSubject<Record<Conversation["id"],Conversation>>({});
+  receivedMessages!:Subject<Messages> ;
+  conversationMessages= new BehaviorSubject<Messages[]>([]);
+
+
+  //Lifecycle methods
+  ngOnDestroy(): void {
+      if(this.receivedMessages) this.receivedMessages.unsubscribe();
+  }
+
+  constructor(private http: HttpClient,private webSocketService:WebSocketService) {
+    this.connectToServer();
+  }
+
+
+  //Custom methods
+  connectToServer(): void {
+    this.receivedMessages=this.webSocketService.getRecievedMessage();
+    this.receivedMessages.subscribe((message:Messages) =>{
+
+      this.allMessages[message.conversationId].push(message)
+      this.conversationMessages.next(this.allMessages[message.conversationId])
+      
+    })
+  }
+
+
+  getConversations(): Subject<Record<Conversation["id"],Conversation>> {
+    this.result=new BehaviorSubject<Record<Conversation["id"],Conversation>>({})
+    if (this.conversations) {
       const url = 'http://localhost:8080/conversations';
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -30,9 +61,11 @@ export class ConversationService {
       this.http
         .get<Conversation[]>(url, { headers: headers })
         .subscribe((response) => {
-          this.conversations = response;
-          console.log(response);
+          for(let conversation of response){
+            this.conversations[conversation.id] = conversation
+          }
           // this.conversations=this.conversations.concat(response)
+          console.log(this.conversations)
           this.result.next(this.conversations);
         });
     } else {
@@ -40,29 +73,29 @@ export class ConversationService {
     }
     return this.result;
   }
+
+  
   refresgetConversations(): void {
     if (this.conversations) {
-      this.result.next([])
+      this.result.next(this.conversations) ;
+
+    
     }
   }
 
 
-  getMessages(id: number): Observable<Messages[]> {
-    const url = `http://localhost:8080/conversations/${id}`;
+  getMessages(conversationId: number): Observable<Messages[]> {
+    const url = `http://localhost:8080/conversations/${conversationId}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: String(localStorage.getItem('token')),
     });
-    return this.http.get<Messages[]>(url, { headers: headers }).pipe(
-      map((messages) => {
-        return messages.map((message) => {
-          if (message.sender.username === localStorage.getItem('username')) {
-            message.self = true;
-          }
-          return message;
-        });
-      })
-    );
+
+    this.http.get<Messages[]>(url, { headers: headers }).subscribe((messages)=>{
+      this.allMessages[conversationId]=messages
+      this.conversationMessages.next(this.allMessages[conversationId])
+    })
+    return this.conversationMessages;
   }
 
   sendMessage(message: String, conversationId: number) {

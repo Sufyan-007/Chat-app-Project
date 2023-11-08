@@ -29,23 +29,27 @@ public class User {
     @Size(max = 50)
     private String name;
 
-
-
     @Size(max = 100)
     private String emailId;
 
     @Size(max = 255)
     private String password;
 
+    @Column()
+    private String profilePictureUrl;
+
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "participants")
     private List<Conversation> conversations;
 
 
-    public User(String username, String name,  String emailId, String password) {
+    public User(String username, String name,  String emailId, String password,String profilePictureUrl) {
         this.username = username;
         this.name=name;
         this.emailId = emailId;
         this.password = password;
+        if(!profilePictureUrl.isEmpty()){
+            this.profilePictureUrl=profilePictureUrl;
+        }
     }
 
     @Override
@@ -58,10 +62,4 @@ public class User {
                 '}';
     }
 
-    public static List<UserDetailsDto> convertToUserDetailsDto(Set<User> users){
-        return users.stream().map(User::convertToUserDetailsDto).toList();
-    }
-    public static UserDetailsDto convertToUserDetailsDto(User user){
-        return new UserDetailsDto(user.getUsername());
-    }
 }

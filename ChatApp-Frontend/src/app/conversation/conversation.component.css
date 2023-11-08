@@ -4,3 +4,6 @@
 .text-input{
     height: 3rem;
 }
+.chatbox::-webkit-scrollbar {
+    display: none;
+}

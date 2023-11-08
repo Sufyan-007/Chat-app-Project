@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { Observable, Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
 import { User } from '../interface/user';
@@ -21,11 +21,24 @@ export class SearchBarComponent {
     // })
     
   )
-  constructor(private userService: UserService){
+  constructor(private elementRef:ElementRef,private userService: UserService){
     this.results.subscribe(results =>this.Results=results);
   }
 
  
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (clickedInside) {
+      this.shown= this.Results.length>0
+    }
+    else{
+      console.log("Clicked outside ")
+      this.shown=false;
+    }
+    
+  }
+
   search(event:any){
     
     if(event.target.value){

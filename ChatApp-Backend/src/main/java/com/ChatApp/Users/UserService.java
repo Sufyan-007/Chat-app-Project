@@ -17,18 +17,23 @@ import java.util.Set;
 public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
-    public User register(UserRegisterDto userRegisterDto){
+    public User register(UserRegisterDto userRegisterDto,String profilePictureId){
         userRegisterDto.setUsername(userRegisterDto.getUsername().toLowerCase());
         userRegisterDto.setEmail(userRegisterDto.getEmail().toLowerCase());
         Optional<User> optionalUser = userRepo.findByUsername(userRegisterDto.getUsername());
         if (optionalUser.isPresent()){
             throw new AppException("Username already exists", HttpStatus.CONFLICT);
         }
+        if(!profilePictureId.isEmpty()){
+            profilePictureId=profilePictureId;
+        }
+
         User user= new User(
                 userRegisterDto.getUsername(),
                 userRegisterDto.getName(),
                 userRegisterDto.getEmail(),
-                passwordEncoder.encode(CharBuffer.wrap(userRegisterDto.getPassword()))
+                passwordEncoder.encode(CharBuffer.wrap(userRegisterDto.getPassword())),
+                profilePictureId
         );
         return userRepo.save(user);
     }
@@ -53,13 +58,13 @@ public class UserService {
     public User findByUsername(String username) {
         username=username.toLowerCase();
         return userRepo.findByUsername(username).orElseThrow(
-                ()-> new AppException("User not found",HttpStatus.NOT_FOUND)
+                ()-> new AppException("User 'username' not found",HttpStatus.NOT_FOUND)
         );
     }
 
     public List<UserDetailsDto>     getUsers(String username) {
         username=username.toLowerCase();
         Set<User> users= userRepo.findTop10ByUsernameStartsWith(username);
-        return User.convertToUserDetailsDto(users);
+        return UserDetailsDto.convertToUserDetailsDto(users);
     }
 }
