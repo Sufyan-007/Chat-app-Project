@@ -29,7 +29,6 @@ public class SecurityFilter {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class)
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
                 .authorizeHttpRequests(
                         (requests)->{
                             requests.requestMatchers(HttpMethod.GET,"/login","/register").permitAll()

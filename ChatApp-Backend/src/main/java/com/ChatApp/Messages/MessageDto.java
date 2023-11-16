@@ -22,7 +22,6 @@ public class MessageDto {
     private String message;
     private boolean media;
     private UserDetailsDto sender;
-
     private Timestamp sentAt;
     private Timestamp updatedAt;
 

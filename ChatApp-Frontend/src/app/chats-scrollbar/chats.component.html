@@ -27,9 +27,10 @@
                         (click)="open(conversation)"
                         [class.active]="conversation.id===activeConversationId"
                     >
-                        <img class="col-2  p-0 me-2 profile-icon" src="{{conversation.icon}}"  onerror="this.src='../../assets/Icons/person-circle.svg'">
+                        <img class="col-2  p-0 ms-1 me-2 profile-icon" src="{{conversation.iconUrl}}"  onerror="this.src='../../assets/Icons/person-circle.svg'">
                         <div class="col">
                             <div class="fs-6 p-0 m-0">
+                                <ng-container *ngIf="conversation.groupChat">Group:</ng-container> 
                                 {{conversation.conversationName|titlecase }}
                             </div>
                             <div class="fs-7 p-0">

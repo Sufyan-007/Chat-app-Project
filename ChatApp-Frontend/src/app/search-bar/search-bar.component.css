@@ -1,3 +1,7 @@
 .results{
     height: 2.25rem;
+    text-decoration: none;
+}
+.results:hover{
+    cursor: pointer;
 }

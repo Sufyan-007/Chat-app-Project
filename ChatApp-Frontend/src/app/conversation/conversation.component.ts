@@ -14,32 +14,55 @@ import { Conversation } from '../interface/conversation';
 import { Messages } from '../interface/messages';
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-conversation',
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.css'],
+  host:{
+    class:'col h-100 '
+  }
 })
+
 export class ConversationComponent
-  implements OnInit, OnChanges,  AfterViewChecked
+  implements  OnChanges,  AfterViewChecked
 {
-  @Input() conversation!: Conversation;
+  conversationId!:number;
+  conversation!: Conversation;
   @ViewChild('chatbox') private chatbox!: ElementRef;
 
   messages: Messages[]=[];
   autoscroll=false;
 
-  constructor(private conversationService: ConversationService) {}
+  constructor(private conversationService: ConversationService,private route:ActivatedRoute) {
+    this.route.paramMap.subscribe((param)=>{
+      if(param!=null ){
+        this.conversationId=param.get("id") as unknown as number;
+        this.MyOnInit();
+      }
 
-  ngOnInit(): void {
+    })
+    
+  }
+
+  MyOnInit(): void {
+    
+    console.log('ngOnInit : '+this.conversationId);
+    this.conversationService.getConversationById(this.conversationId).subscribe((result)=>{
+      this.conversation=result;
+      this.refreshConversation();
+    })
     // this.messages=this.conversationService.getMessages(this.conversation.id);
+    
+      this.autoscroll=true
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.conversation) {
-      this.refreshConversation();
-      this.autoscroll=true
-    }
+    // if (this.conversation) {
+    //   this.refreshConversation();
+    //   this.autoscroll=true
+    // }
   }
   
 

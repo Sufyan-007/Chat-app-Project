@@ -8,10 +8,11 @@ import { ChatsbaseComponent } from './chatsbase/chatsbase.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ChatsComponent } from './chats/chats.component';
+import { ChatsComponent } from './chats-scrollbar/chats.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { HttpCustomInterceptor } from './http-interceptor.interceptor';
+import { NewConversationComponent } from './new-conversation/new-conversation.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { HttpCustomInterceptor } from './http-interceptor.interceptor';
     ChatsComponent,
     ConversationComponent,
     SearchBarComponent,
+    NewConversationComponent,
   ],
   imports: [
     BrowserModule,

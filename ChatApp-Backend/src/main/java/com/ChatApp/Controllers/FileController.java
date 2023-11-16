@@ -26,6 +26,7 @@ public class FileController {
 
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable("id") String id) throws IOException {
+
         File file = fileService.downloadFile(id);
         return  ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getFileType()))

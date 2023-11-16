@@ -3,6 +3,7 @@ import { Conversation } from '../interface/conversation';
 import {
   BehaviorSubject,
   Observable,
+  ReplaySubject,
   Subject,
   Subscriber,
   lastValueFrom,
@@ -15,43 +16,51 @@ import { WebSocketService } from './web-socket.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ConversationService implements OnDestroy{
-
+export class ConversationService implements OnDestroy {
   //Data
-  conversations: Record<Conversation["id"],Conversation> = {};
-  allMessages: Record<Conversation["id"],Messages[]> = {};
-
+  conversations: Record<Conversation['id'], Conversation> = {};
+  allMessages: Record<Conversation['id'], Messages[]> = {};
 
   //Subjects
-  result = new BehaviorSubject<Record<Conversation["id"],Conversation>>({});
-  receivedMessages!:Subject<Messages> ;
-  conversationMessages= new BehaviorSubject<Messages[]>([]);
-
+  result = new BehaviorSubject<Record<Conversation['id'], Conversation>>({});
+  receivedMessages!: Subject<Messages>;
+  conversationMessages = new BehaviorSubject<Messages[]>([]);
 
   //Lifecycle methods
   ngOnDestroy(): void {
-      if(this.receivedMessages) this.receivedMessages.unsubscribe();
+    if (this.receivedMessages) this.receivedMessages.unsubscribe();
   }
 
-  constructor(private http: HttpClient,private webSocketService:WebSocketService) {
+  constructor(
+    private http: HttpClient,
+    private webSocketService: WebSocketService
+  ) {
     this.connectToServer();
   }
 
-
   //Custom methods
   connectToServer(): void {
-    this.receivedMessages=this.webSocketService.getRecievedMessage();
-    this.receivedMessages.subscribe((message:Messages) =>{
-
-      this.allMessages[message.conversationId].push(message)
-      this.conversationMessages.next(this.allMessages[message.conversationId])
-      
-    })
+    this.receivedMessages = this.webSocketService.getRecievedMessage();
+    this.receivedMessages.subscribe((message: Messages) => {
+      if(this.allMessages[message.conversationId]!=undefined){
+        this.allMessages[message.conversationId].push(message);
+      }
+      else{
+        this.allMessages[message.conversationId]=[message]
+      }
+      this.conversationMessages.next(this.allMessages[message.conversationId]);
+      if(this.conversations[message.conversationId]==undefined) {
+        this.getConversationById(message.conversationId).unsubscribe();
+      }else{
+        this.conversations[message.conversationId].latestMessage=message.message;
+      }
+    });
   }
 
-
-  getConversations(): Subject<Record<Conversation["id"],Conversation>> {
-    this.result=new BehaviorSubject<Record<Conversation["id"],Conversation>>({})
+  getConversations(): Subject<Record<Conversation['id'], Conversation>> {
+    if(this.result.closed){this.result = new BehaviorSubject<Record<Conversation['id'], Conversation>>(
+      {}
+    );}
     if (this.conversations) {
       const url = 'http://localhost:8080/conversations';
       const headers = new HttpHeaders({
@@ -61,11 +70,11 @@ export class ConversationService implements OnDestroy{
       this.http
         .get<Conversation[]>(url, { headers: headers })
         .subscribe((response) => {
-          for(let conversation of response){
-            this.conversations[conversation.id] = conversation
+          for (let conversation of response) {
+            this.conversations[conversation.id] = conversation;
           }
           // this.conversations=this.conversations.concat(response)
-          console.log(this.conversations)
+          console.log(this.conversations);
           this.result.next(this.conversations);
         });
     } else {
@@ -74,32 +83,52 @@ export class ConversationService implements OnDestroy{
     return this.result;
   }
 
+  getConversationById(conversationId: number): Subject<Conversation> {
+    const conv = new ReplaySubject<Conversation>();
+    if (!this.conversations[conversationId]) {
+      const url = 'http://localhost:8080/conversations/' + conversationId;
+      console.log('in Conversation : ' + url);
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: String(localStorage.getItem('token')),
+      });
+      this.http
+        .get<Conversation>(url, { headers: headers })
+        .subscribe((response) => {
+          this.conversations[response.id] = response;
+          this.result.next(this.conversations)
+          conv.next(response);
+        });
+    } else {
+      conv.next(this.conversations[conversationId]);
+    }
+    return conv;
+  }
   
+
   refresgetConversations(): void {
     if (this.conversations) {
-      this.result.next(this.conversations) ;
-
-    
+      this.result.next(this.conversations);
     }
   }
 
-
   getMessages(conversationId: number): Observable<Messages[]> {
-    const url = `http://localhost:8080/conversations/${conversationId}`;
+    const url = `http://localhost:8080/conversations/messages/${conversationId}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: String(localStorage.getItem('token')),
     });
 
-    this.http.get<Messages[]>(url, { headers: headers }).subscribe((messages)=>{
-      this.allMessages[conversationId]=messages
-      this.conversationMessages.next(this.allMessages[conversationId])
-    })
+    this.http
+      .get<Messages[]>(url, { headers: headers })
+      .subscribe((messages) => {
+        this.allMessages[conversationId] = messages;
+        this.conversationMessages.next(this.allMessages[conversationId]);
+      });
     return this.conversationMessages;
   }
 
-  sendMessage(message: String, conversationId: number) {
-    console.log('In service');
+  sendMessage(message: String, conversationId: number):Promise<Messages> {
     const url = `http://localhost:8080/sendmessage`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -110,9 +139,20 @@ export class ConversationService implements OnDestroy{
       conversationId: conversationId,
     };
     const response = this.http.post<Messages>(url, data, { headers });
-    // response.subscribe(data=>{
-    //   console.log(data)
-    // })
     return lastValueFrom(response);
   }
+  sendNewMessage(message: String, sentTo: string):Promise<Messages> {
+    const url = `http://localhost:8080/sendmessage`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: String(localStorage.getItem('token')),
+    });
+    const data = {
+      message: message,
+      sentTo: sentTo,
+    };
+    const response = this.http.post<Messages>(url, data, { headers });
+    return lastValueFrom(response);
+  }
+  
 }

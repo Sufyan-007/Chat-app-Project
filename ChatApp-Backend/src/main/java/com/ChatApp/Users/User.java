@@ -5,10 +5,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -30,7 +28,7 @@ public class User {
     private String name;
 
     @Size(max = 100)
-    private String emailId;
+    private String email;
 
     @Size(max = 255)
     private String password;
@@ -42,10 +40,10 @@ public class User {
     private List<Conversation> conversations;
 
 
-    public User(String username, String name,  String emailId, String password,String profilePictureUrl) {
+    public User(String username, String name, String email, String password, String profilePictureUrl) {
         this.username = username;
         this.name=name;
-        this.emailId = emailId;
+        this.email = email;
         this.password = password;
         if(!profilePictureUrl.isEmpty()){
             this.profilePictureUrl=profilePictureUrl;
@@ -58,7 +56,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", Name='" + name + '\'' +
-                ", emailId='" + emailId + '\'' +
+                ", emailId='" + email + '\'' +
                 '}';
     }
 

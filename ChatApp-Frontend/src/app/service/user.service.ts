@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { User } from '../interface/user';
 
 @Injectable({
@@ -16,7 +16,15 @@ export class UserService {
       'Content-Type': 'application/plain',
       'Authorization': String(localStorage.getItem('token'))
     })
-    return  this.http.post<User[]>(url,username, {headers: headers})
+    return  this.http.post<User[]>(url,username, {headers: headers}).pipe(map(response => {
+      console.log(response)
+      response = response.filter((user)=>{
+        return user.username !== localStorage.getItem('username') as string;
+         
+      })
+      console.log(response)
+      return response
+    }))
   }
 
 }

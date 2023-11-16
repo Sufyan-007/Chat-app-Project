@@ -27,14 +27,16 @@ export class ChatsComponent implements OnInit,OnDestroy{
     
     this.conversationSubject= this.conversationService.getConversations()
     this.conversationSubject.subscribe((convs)=>{
-      Object.values(convs).forEach((conv)=>{
-        this.conversations.push(conv);
-      })
+
+      // Object.values(convs).forEach((conv)=>{
+      //   this.conversations.push(conv);
+      // })
+      this.conversations = Object.values( convs);
     })
   }
 
   open(conversation:Conversation){
-    this.router.navigate([],{fragment:String(conversation.conversationName)})
+    this.router.navigate(["/home/chat/"+conversation.id])
     this.activeConversationId;
     this.selectConv.emit(conversation);
   }

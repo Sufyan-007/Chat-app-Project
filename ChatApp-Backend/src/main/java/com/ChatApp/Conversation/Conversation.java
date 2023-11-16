@@ -57,24 +57,6 @@ public class Conversation {
                 '}';
     }
 
-    public static ConversationDto convertToConversationDto(Conversation conversation, User user){
-        String message="";
-        if(conversation.getLatestMessage()!=null){
-            message = conversation.getLatestMessage().getMessage();
-        }
-        String conversationName;
-        if(conversation.isGroupChat()){
-            conversationName = conversation.getConversationName();
-        }else{
-            Set<User> users=conversation.getParticipants();
-            conversationName = users.stream().filter((user1) -> !user1.getUsername().equals(user.getUsername())).findFirst().get().getUsername();
-        }
-        return new ConversationDto(conversation.getId(), conversation.isGroupChat(),
-                UserDetailsDto.convertToUserDetailsDto(conversation.getParticipants()),message,conversationName);
-    }
 
-    public static List<ConversationDto> convertToConversationDto(List<Conversation> conversations,User user){
-        return conversations.stream().map((conversation -> Conversation.convertToConversationDto(conversation,user))).toList();
-    }
 
 }

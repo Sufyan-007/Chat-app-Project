@@ -1,6 +1,7 @@
 package com.ChatApp.Controllers;
 
 import com.ChatApp.Config.UserAuthenticationProvider;
+import com.ChatApp.Conversation.Conversation;
 import com.ChatApp.Conversation.ConversationDto;
 import com.ChatApp.Conversation.ConversationService;
 import com.ChatApp.Messages.Message;
@@ -40,6 +41,8 @@ public class MessageController {
         return ResponseEntity.ok(conversations);
 
     }
+
+
     @PostMapping("/conversations")
     public ResponseEntity<Boolean> newConversation(@RequestBody ConversationDto conversation,Authentication authentication){
         String username= (String) authentication.getPrincipal();
@@ -47,9 +50,16 @@ public class MessageController {
         return ResponseEntity.ok(true);
     }
 
-
     @GetMapping("/conversations/{conversationId}")
-    public ResponseEntity<List<MessageDto>> getConversations(@PathVariable int conversationId, Authentication authentication){
+    public ResponseEntity<ConversationDto> getConversations(@PathVariable int conversationId, Authentication authentication){
+        String username= (String) authentication.getPrincipal();
+        ConversationDto conversation = conversationService.findConversation(conversationId,username);
+        return ResponseEntity.ok(conversation);
+    }
+
+
+    @GetMapping("/conversations/messages/{conversationId}")
+    public ResponseEntity<List<MessageDto>> getConversationsMessages(@PathVariable int conversationId, Authentication authentication){
         String username= (String) authentication.getPrincipal();
         List<Message> messages = messageService.findMessageByConv(conversationId,username);
 

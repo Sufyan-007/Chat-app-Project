@@ -28,7 +28,7 @@ public class ConversationService {
 
 //        Conversation.convertToConversationDto(conversation,user);
 
-        return Conversation.convertToConversationDto(conversations,user);
+        return ConversationDto.convertToConversationDto(conversations,user);
     }
 
     public Conversation findConversation(int conversationId) {
@@ -36,6 +36,15 @@ public class ConversationService {
                 () -> new AppException("Conversation does not exist", HttpStatus.NOT_FOUND)
         );
     }
+    public ConversationDto findConversation(int conversationId,String username) {
+        Conversation conversation= conversationRepo.findById(conversationId).orElseThrow(
+                () -> new AppException("Conversation does not exist", HttpStatus.NOT_FOUND)
+        );
+        User user= userService.findByUsername(username);
+        return ConversationDto.convertToConversationDto(conversation,user);
+
+    }
+
 
     public Conversation createGroupConversation(ConversationDto conversationDto, String username) {
         Set<User> Users= new HashSet<>();

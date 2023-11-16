@@ -2,7 +2,7 @@
     <input class="form-control row m-0 shadow-none " placeholder="Search" (input)="search($event)">
     <div *ngIf="shown" class="bg-dark-subtle rounded-bottom-1">
         <!-- <ng-container *ngIf="(results|async) as Results"> -->
-            <div *ngFor="let result of  Results|slice:0:8 " class="row m-2 results">
+            <div *ngFor="let result of  Results|slice:0:8 " class="row m-2 results" (click)="openNewChat(result)">
                 <img class="col-auto  p-0 h-75 me-2" src="../../assets/Icons/person-circle.svg" alt="">
                 <div class="col">
                     {{result.username}}

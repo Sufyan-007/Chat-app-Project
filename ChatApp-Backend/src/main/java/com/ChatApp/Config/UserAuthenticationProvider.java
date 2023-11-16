@@ -6,6 +6,7 @@ import com.ChatApp.Users.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import jakarta.annotation.PostConstruct;
@@ -14,11 +15,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class UserAuthenticationProvider {
@@ -41,6 +45,7 @@ public class UserAuthenticationProvider {
 
 
         return JWT.create()
+
                 .withIssuer(login)
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
@@ -51,7 +56,8 @@ public class UserAuthenticationProvider {
         try {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decoded = verifier.verify(token);
-            return new UsernamePasswordAuthenticationToken(decoded.getIssuer(), null, Collections.emptyList());
+            SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(role);
+            return new UsernamePasswordAuthenticationToken(decoded.getIssuer(), null, List.of(simpleGrantedAuthority));
         }
         catch (Exception e) {
             throw new AppException("Invalid token", HttpStatus.FORBIDDEN);

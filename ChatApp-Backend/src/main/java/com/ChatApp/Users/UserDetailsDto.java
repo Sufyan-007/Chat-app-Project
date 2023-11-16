@@ -25,6 +25,6 @@ public class UserDetailsDto {
         if(profilePictureUrl!=null && !profilePictureUrl.isEmpty()){
             profilePictureUrl="http://localhost:8080/file/download/"+profilePictureUrl;
         }
-        return new UserDetailsDto(user.getUsername(),user.getEmailId(),profilePictureUrl);}
+        return new UserDetailsDto(user.getUsername(),user.getEmail(),profilePictureUrl);}
 
 }

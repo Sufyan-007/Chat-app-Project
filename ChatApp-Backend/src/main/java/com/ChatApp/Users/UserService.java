@@ -62,9 +62,9 @@ public class UserService {
         );
     }
 
-    public List<UserDetailsDto>     getUsers(String username) {
-        username=username.toLowerCase();
-        Set<User> users= userRepo.findTop10ByUsernameStartsWith(username);
+    public List<UserDetailsDto>     getUsers(String usernameOrEmail) {
+        usernameOrEmail=usernameOrEmail.toLowerCase();
+        Set<User> users= userRepo.findTop10Users(usernameOrEmail);
         return UserDetailsDto.convertToUserDetailsDto(users);
     }
 }
