@@ -40,4 +40,7 @@ export class ChatsComponent implements OnInit,OnDestroy{
     this.activeConversationId;
     this.selectConv.emit(conversation);
   }
+  createGroup(){
+    this.router.navigate(["/home/create-group"]);
+  }
 }

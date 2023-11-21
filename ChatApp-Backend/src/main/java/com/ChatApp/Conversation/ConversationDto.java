@@ -20,7 +20,7 @@ public class ConversationDto {
     private String conversationName;
     private String iconUrl;
 
-    public static ConversationDto convertToConversationDto(Conversation conversation, User user){
+    public static ConversationDto convertToConversationDto(Conversation conversation, String username){
         String message="";
         String iconUrl="";
         if(conversation.getLatestMessage()!=null){
@@ -31,7 +31,7 @@ public class ConversationDto {
             conversationName = conversation.getConversationName();
         }else{
             Set<User> users=conversation.getParticipants();
-            User user2 = users.stream().filter((user1) -> !user1.getUsername().equals(user.getUsername())).findFirst().get();
+            User user2 = users.stream().filter((user1) -> !user1.getUsername().equals(username)).findFirst().get();
             conversationName=user2.getUsername();
             if(user2.getProfilePictureUrl()!=null){
                 iconUrl="http://localhost:8080/file/download/"+ user2.getProfilePictureUrl();
@@ -39,6 +39,10 @@ public class ConversationDto {
         }
         return new ConversationDto(conversation.getId(), conversation.isGroupChat(),
                 UserDetailsDto.convertToUserDetailsDto(conversation.getParticipants()),message,conversationName,iconUrl);
+    }
+
+    public static ConversationDto convertToConversationDto(Conversation conversation,User user){
+        return convertToConversationDto(conversation,user.getUsername());
     }
 
     public static List<ConversationDto> convertToConversationDto(List<Conversation> conversations,User user){

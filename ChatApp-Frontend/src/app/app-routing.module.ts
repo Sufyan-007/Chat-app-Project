@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { NewConversationComponent } from './new-conversation/new-conversation.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
 
 const routes: Routes = [
   {
@@ -13,8 +14,10 @@ const routes: Routes = [
     children: [
       { path: 'chat/:id', component: ConversationComponent },
       { path: 'new-dm/:id', component: NewConversationComponent }, 
+      {path:"create-group", component: CreateGroupComponent},
     ],
   },
+  
   { path: '', component: LoginComponent },
   
 

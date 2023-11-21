@@ -44,10 +44,10 @@ public class MessageController {
 
 
     @PostMapping("/conversations")
-    public ResponseEntity<Boolean> newConversation(@RequestBody ConversationDto conversation,Authentication authentication){
+    public ResponseEntity<ConversationDto> newConversation(@RequestBody ConversationDto conversation,Authentication authentication){
         String username= (String) authentication.getPrincipal();
-        conversationService.createGroupConversation(conversation, username);
-        return ResponseEntity.ok(true);
+        Conversation createdConversation= conversationService.createGroupConversation(conversation, username);
+        return ResponseEntity.ok(ConversationDto.convertToConversationDto(createdConversation,username));
     }
 
     @GetMapping("/conversations/{conversationId}")

@@ -1,20 +1,19 @@
 .gradient-custom {
-/* fallback for old browsers */
-background: #5B86E5;
-
-/* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #36D1DC, #5B86E5);
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, #36D1DC, #5B86E5);
+  background: #5b86e5;
+  background: linear-gradient(to right, #36d1dc, #5b86e5);
+  background: linear-gradient(to right, #36d1dc, #5b86e5);
 }
 .gradient-custom-2 {
-    /* fallback for old browsers */
-    background: #426d83;
-    
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient((to right,#02AAB0, #00CDAC));
-    
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right,#02AAB0, #00CDAC);
-    }
+  background: #426d83;
+  background: -webkit-linear-gradient((to right, #02aab0, #00cdac));
+  background: linear-gradient(to right, #02aab0, #00cdac);
+}
+
+.avatar{
+    height: 7rem;
+    width: 7rem;
+    border-radius: 3.5rem;
+}
+.avatar-input:hover{
+    cursor: pointer;
+}

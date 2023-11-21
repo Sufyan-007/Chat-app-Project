@@ -16,7 +16,6 @@ export class HttpCustomInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    console.log('Intercepted request');
     return next.handle(request).pipe(
       catchError((error) => {
         if (error.status === 403) {

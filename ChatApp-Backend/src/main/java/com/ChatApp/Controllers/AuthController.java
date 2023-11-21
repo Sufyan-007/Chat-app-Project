@@ -43,9 +43,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-
     public ResponseEntity<String> register(@RequestParam("body")  String userData,@RequestParam(value = "file",required = false) MultipartFile profilePicture){
         UserRegisterDto userRegisterDto= null;
+
         try {
             userRegisterDto = objectMapper.readValue(userData, UserRegisterDto.class);
         } catch (JsonProcessingException e) {
@@ -54,7 +54,7 @@ public class AuthController {
         String profilePictureId="";
 
         if(profilePicture==null || profilePicture.isEmpty()){
-            System.out.println("No profile picture");
+
         }else{
             try {
                 profilePictureId = fileService.addFile(profilePicture);
@@ -64,7 +64,6 @@ public class AuthController {
         }
 
 
-        System.out.println(userRegisterDto);
         User user= userService.register(userRegisterDto,profilePictureId);
 
 

@@ -48,7 +48,6 @@ export class ConversationComponent
 
   MyOnInit(): void {
     
-    console.log('ngOnInit : '+this.conversationId);
     this.conversationService.getConversationById(this.conversationId).subscribe((result)=>{
       this.conversation=result;
       this.refreshConversation();
@@ -79,7 +78,7 @@ export class ConversationComponent
       this.chatbox.nativeElement.scrollHeight;
   }
 
-  messageInput: string | any;
+  messageInput: string | any="";
 
   refreshConversation() {
     this.conversationService
@@ -101,7 +100,7 @@ export class ConversationComponent
   }
   sendMessage(message: string) {
     this.messageInput = '';
-    if (message !== '') {
+    if (message.trim() !== '') {
       this.messageInput = '';
       this.autoscroll = true;
       this.conversationService.sendMessage(message, this.conversation.id);

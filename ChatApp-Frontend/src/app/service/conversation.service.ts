@@ -12,6 +12,7 @@ import {
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Messages } from '../interface/messages';
 import { WebSocketService } from './web-socket.service';
+import { User } from '../interface/user';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +21,6 @@ export class ConversationService implements OnDestroy {
   //Data
   conversations: Record<Conversation['id'], Conversation> = {};
   allMessages: Record<Conversation['id'], Messages[]> = {};
-
-  //Subjects
   result = new BehaviorSubject<Record<Conversation['id'], Conversation>>({});
   receivedMessages!: Subject<Messages>;
   conversationMessages = new BehaviorSubject<Messages[]>([]);
@@ -74,7 +73,7 @@ export class ConversationService implements OnDestroy {
             this.conversations[conversation.id] = conversation;
           }
           // this.conversations=this.conversations.concat(response)
-          console.log(this.conversations);
+          // console.log(this.conversations);
           this.result.next(this.conversations);
         });
     } else {
@@ -87,7 +86,7 @@ export class ConversationService implements OnDestroy {
     const conv = new ReplaySubject<Conversation>();
     if (!this.conversations[conversationId]) {
       const url = 'http://localhost:8080/conversations/' + conversationId;
-      console.log('in Conversation : ' + url);
+      // console.log('in Conversation : ' + url);
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: String(localStorage.getItem('token')),
@@ -155,4 +154,21 @@ export class ConversationService implements OnDestroy {
     return lastValueFrom(response);
   }
   
+
+
+  createGroup(conversationName:string|String,users:User[]):Observable<Conversation> {
+    const newConv={
+      conversationName: conversationName,
+      users: users
+    }
+    const data=JSON.stringify(newConv);
+    const url = `http://localhost:8080/conversations`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: String(localStorage.getItem('token')),
+    });
+
+    return this.http.post<Conversation>(url, data, { headers });
+    
+  }
 }

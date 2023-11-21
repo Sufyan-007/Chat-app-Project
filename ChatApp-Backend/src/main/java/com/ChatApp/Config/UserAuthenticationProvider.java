@@ -1,35 +1,32 @@
 package com.ChatApp.Config;
 
 import com.ChatApp.Exceptions.AppException;
-import com.ChatApp.Users.User;
 import com.ChatApp.Users.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.function.ServerRequest;
 
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-
 @RequiredArgsConstructor
 @Component
 public class UserAuthenticationProvider {
     @Value("${security.jwt.token.secret-key:secret-key}")
     private String secretKey;
 
-    private final UserService userService;
     private Algorithm algorithm;
 
     @PostConstruct
@@ -56,8 +53,8 @@ public class UserAuthenticationProvider {
         try {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decoded = verifier.verify(token);
-            SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(role);
-            return new UsernamePasswordAuthenticationToken(decoded.getIssuer(), null, List.of(simpleGrantedAuthority));
+
+            return new UsernamePasswordAuthenticationToken(decoded.getIssuer(), null, Collections.emptyList());
         }
         catch (Exception e) {
             throw new AppException("Invalid token", HttpStatus.FORBIDDEN);
@@ -65,11 +62,12 @@ public class UserAuthenticationProvider {
 
     }
 
-    public User getUser(String token) {
+
+    public String getUsername(String token) {
         try {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decoded = verifier.verify(token);
-            return userService.findByUsername(decoded.getIssuer());
+            return decoded.getIssuer();
         }
         catch (Exception e) {
             throw new AppException("Invalid token", HttpStatus.FORBIDDEN);

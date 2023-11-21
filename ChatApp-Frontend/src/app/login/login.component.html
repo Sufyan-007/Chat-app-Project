@@ -45,46 +45,66 @@
 </section>
 
 
-<section *ngIf="!login_page" class="vh-100 gradient-custom-2">
-  <div class="container py-5 h-100">
+<div *ngIf="!login_page" class="min-vh-100 gradient-custom-2">
+  <div class="container py-4 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
         <div class="card bg-dark text-white" style="border-radius: 1rem;">
-          <div class="card-body p-5 text-center">
+          <div class="card-body py-3 px-5 text-center">
 
-            <div class="mb-md-5 mt-md-4 pb-2">
+            <div class="mb-5 mt-4 pb-2">
 
-              <h2 class="fw-bold mb-2 text-uppercase">Sign Up</h2>
-              <p class="text-white-50 mb-5">Please enter your details!</p>
-              <form #loginform="ngForm" (ngSubmit)="signup() ">
-
-                <div class="form-floating mb-3 text-black-50">
-                  <input type="name" id="name" name="name" [(ngModel)]="signupDetails.name"
-                    #username="ngModel" required class="form-control" placeholder="Name">
-                  <label for="username">Name</label>
+              <h2 class="fw-bold mb-1 text-uppercase">Sign Up</h2>
+              <p class="text-white-50 mb-3">Please enter your details!</p>
+              <form #signupForm="ngForm" (ngSubmit)="signup() ">
+                <div class="form-group mb-3 text-black-50" class="avatar-input mb-3" (click)="openFileInput()">
+                  <div class="avatar-container">
+                    <img [src]="getProfilePictureUrl()"  class="avatar" 
+                    onerror="this.src='../../assets/Icons/person-circle.svg'">
+                  </div>
+                  <input type="file" id="profilePicture" name="profilePicture" (change)="onFileSelected($event)" class="form-control" style="display: none;">
+              
                 </div>
 
-                <div class="form-floating mb-3 text-black-50">
+                <div class="form-floating mt-3 text-black-50">
+                  <input type="name" id="name" name="name" [(ngModel)]="signupDetails.name"
+                    #name="ngModel" required class="form-control" placeholder="Name">
+                  <label for="username">Name</label>
+                </div>
+                <div *ngIf="name.invalid && name.touched" class=" text-danger fs-7">
+                  Please Enter Your Name
+                </div>
+
+                <div class="form-floating mt-3 text-black-50">
                   <input type="username" id="username" name="username" [(ngModel)]="signupDetails.username"
                     #username="ngModel" required class="form-control" placeholder="Username">
                   <label for="username">Username</label>
                 </div>
-
-                <div class="form-floating mb-3 text-black-50">
-                  <input type="email" id="email" name="email" [(ngModel)]="signupDetails.email"
-                    #username="ngModel" required class="form-control" placeholder="Email">
-                  <label for="username">Email</label>
+                <div *ngIf="username.invalid && username.touched" class=" text-danger fs-7">
+                  Please Enter a Username (no spaces)
                 </div>
 
-                <div class="form-floating  mb-3 text-black-50">
+                <div class="form-floating mt-3 text-black-50">
+                  <input type="email" id="email" name="email" [(ngModel)]="signupDetails.email"
+                    #email="ngModel" required email class="form-control" placeholder="Email">
+                  <label for="username">Email</label>
+                </div>
+                <div *ngIf="email.invalid && email.touched" class=" text-danger fs-7">
+                  Please Enter a Valid Email
+                </div>
+
+                <div class="form-floating  mt-3 text-black-50">
                   <input type="password" id="password" name="password" [(ngModel)]="signupDetails.password"
                     #password="ngModel" required class="form-control" placeholder="Password">
                   <label for="password">Password</label>
                 </div>
+                <div *ngIf="password.invalid && password.touched" class=" text-danger fs-7">
+                  Please Enter a Valid Password
+                </div>
 
                 <p class="small m-1 pb-2 mb-3"><a class="text-white-50" href="#" (click)="toggle_page()">Already have an account?</a></p>
 
-                <button class="btn btn-outline-light btn-lg px-5" type="submit">Sign Up</button>
+                <button [disabled]="signupForm.form.invalid"  class="btn btn-outline-light btn-lg px-5" type="submit">Sign Up</button>
 
               </form>
 
@@ -97,4 +117,4 @@
       </div>
     </div>
   </div>
-</section>
+</div>

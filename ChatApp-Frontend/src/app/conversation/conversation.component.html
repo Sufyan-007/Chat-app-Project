@@ -39,8 +39,11 @@
             <div class="col-11 d-flex">
                 <div class="input-group text-input my-2 align-items-center">
                     <input type="text" class="form-control bg-dark-subtle border-3 border-white rounded-5 shadow-none"
-                     placeholder="Type Message" [(ngModel)]="messageInput" (keydown.enter)="sendMessage(messageInput)" >
-                    <button class="btn rounded-5 h-75 p-0 ratio-1x1 border-0" [disabled]=!messageInput (click)="sendMessage(messageInput)">
+                     placeholder="Type Message" [(ngModel)]="messageInput"  (keydown.enter)="sendMessage(messageInput)" >
+                    <button *ngIf="messageInput.trim().length>0"  class="btn rounded-5 h-75 p-0 ratio-1x1 border-0" [disabled]=!messageInput (click)="sendMessage(messageInput)">
+                        <img class="h-100 ps-2 py-1" src="../../assets/Icons/paper-plane-svgrepo-com.svg"> 
+                    </button>
+                    <button *ngIf="messageInput.trim().length<=0"  class="btn rounded-5 h-75 p-0 ratio-1x1 border-0" [disabled]=!messageInput (click)="sendMessage(messageInput)">
                         <img class="h-100 ps-2 py-1" src="../../assets/Icons/paper-plane-svgrepo-com.svg"> 
                     </button>
                 </div>

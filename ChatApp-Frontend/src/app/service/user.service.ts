@@ -17,7 +17,7 @@ export class UserService {
       'Authorization': String(localStorage.getItem('token'))
     })
     return  this.http.post<User[]>(url,username, {headers: headers}).pipe(map(response => {
-      console.log(response)
+      
       response = response.filter((user)=>{
         return user.username !== localStorage.getItem('username') as string;
          

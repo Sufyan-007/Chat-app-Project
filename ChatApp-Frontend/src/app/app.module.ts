@@ -13,6 +13,9 @@ import { ConversationComponent } from './conversation/conversation.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { HttpCustomInterceptor } from './http-interceptor.interceptor';
 import { NewConversationComponent } from './new-conversation/new-conversation.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
+import { LimitStringPipe } from './custom-pipes/limit-string.pipe';
+
 
 
 @NgModule({
@@ -26,6 +29,9 @@ import { NewConversationComponent } from './new-conversation/new-conversation.co
     ConversationComponent,
     SearchBarComponent,
     NewConversationComponent,
+    CreateGroupComponent,
+    LimitStringPipe,
+    
   ],
   imports: [
     BrowserModule,

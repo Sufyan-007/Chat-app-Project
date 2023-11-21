@@ -24,10 +24,6 @@ export class SearchBarComponent {
   results: Observable<User[]> = this.searchPipe.pipe(
     switchMap((search) => this.userService.findUsers(search)),
     debounceTime(500)
-    // catchError(error=>{
-    //   console.log(error);
-
-    // })
   );
   
   constructor(
@@ -36,7 +32,7 @@ export class SearchBarComponent {
     private router: Router
     
   ) {
-    this.results.subscribe((results) => (this.Results = results));
+    this.results.subscribe((results) => {this.Results = results});
   }
 
   @HostListener('document:click', ['$event'])
@@ -45,7 +41,6 @@ export class SearchBarComponent {
     if (clickedInside) {
       this.shown = this.Results.length > 0;
     } else {
-      console.log('Clicked outside ');
       this.shown = false;
     }
   }
@@ -54,8 +49,6 @@ export class SearchBarComponent {
     if (event.target.value) {
       this.shown = true;
       this.searchPipe.next(event.target.value);
-    } else {
-      this.shown = false;
     }
     console.log(this.shown);
   }
