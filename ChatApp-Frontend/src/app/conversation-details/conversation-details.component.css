@@ -2,3 +2,7 @@ btn-close-size{
     height: 3rem;
     width: 3rem;
 }
+.conversation-icon{
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}

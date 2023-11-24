@@ -18,17 +18,25 @@ public class ConversationDto {
     private List<UserDetailsDto> users;
     private String latestMessage;
     private String conversationName;
+    private String description;
     private String iconUrl;
 
     public static ConversationDto convertToConversationDto(Conversation conversation, String username){
         String message="";
         String iconUrl="";
+        String description="";
         if(conversation.getLatestMessage()!=null){
             message = conversation.getLatestMessage().getMessage();
         }
         String conversationName;
         if(conversation.isGroupChat()){
+            iconUrl=conversation.getIconUrl();
             conversationName = conversation.getConversationName();
+            description=conversation.getDescription();
+            if(iconUrl!=null && !iconUrl.isEmpty()){
+                iconUrl="http://localhost:8080/file/download/"+iconUrl;
+            }
+
         }else{
             Set<User> users=conversation.getParticipants();
             User user2 = users.stream().filter((user1) -> !user1.getUsername().equals(username)).findFirst().get();
@@ -38,7 +46,7 @@ public class ConversationDto {
             }
         }
         return new ConversationDto(conversation.getId(), conversation.isGroupChat(),
-                UserDetailsDto.convertToUserDetailsDto(conversation.getParticipants()),message,conversationName,iconUrl);
+                UserDetailsDto.convertToUserDetailsDto(conversation.getParticipants()),message,conversationName,description,iconUrl);
     }
 
     public static ConversationDto convertToConversationDto(Conversation conversation,User user){

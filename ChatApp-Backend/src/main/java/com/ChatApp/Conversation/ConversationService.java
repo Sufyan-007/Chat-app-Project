@@ -54,8 +54,9 @@ public class ConversationService {
         });
         Conversation conversation= Conversation.builder()
                 .conversationName(conversationDto.getConversationName())
-                .groupChat(true)
+                .groupChat(true).description(conversationDto.getDescription())
                 .participants(Users)
+                .iconUrl(conversationDto.getIconUrl())
                 .build();
         return conversationRepo.save(conversation);
     }

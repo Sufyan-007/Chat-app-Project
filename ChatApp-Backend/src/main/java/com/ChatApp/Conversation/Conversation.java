@@ -22,9 +22,11 @@ public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String conversationName;
     private boolean groupChat;
+
+    private String description;
+    private String iconUrl;
 
     @JoinColumn
     @OneToOne
@@ -48,15 +50,13 @@ public class Conversation {
 
     @Override
     public String toString() {
-        return "Conversation{" +
-                "id=" + id +
+        return "{" +
+                "conversationName='" + conversationName + '\'' +
                 ", groupChat=" + groupChat +
-                ", latestMessage=" + latestMessage.getMessage() +
+                ", description='" + description + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
+                ", latestMessage=" + latestMessage +
                 ", createdAt=" + createdAt +
-                ", conversationName=" + conversationName +
                 '}';
     }
-
-
-
 }

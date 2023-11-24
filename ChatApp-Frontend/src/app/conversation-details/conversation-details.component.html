@@ -1,1 +1,23 @@
-<button type="button" class="btn-close shadow-none btn-close-size" (click)="close()" ></button>
+<div class="row p-2">
+    <button type="button" class="btn-close shadow-none btn-close-size" (click)="close()">
+    </button>
+</div>
+<div class="row flex-grow-1 overflow-x-hidden">
+    <div class="col ">
+        <div class="row overflow-x-hidden">
+            <div class="col-6 offset-3 p-3 ">
+                <img class=" p-0 w-100 m-0 rounded-circle conversation-icon " src="{{ conversation.iconUrl }}"
+                    onerror="this.src='../../assets/Icons/person-circle.svg'" />
+            </div>
+        </div>
+        <div class="row  justify-content-center fs-4">
+            {{conversation.conversationName |titlecase}}
+        </div>
+        <div class="row mt-3">
+            <p class="text-dark fs-5 m-0 ">About:</p>
+            <p class="text-light-emphasis fs-6">
+                {{conversation.description}}
+            </p>
+        </div>
+    </div>
+</div>

@@ -4,16 +4,21 @@ import com.ChatApp.Config.UserAuthenticationProvider;
 import com.ChatApp.Conversation.Conversation;
 import com.ChatApp.Conversation.ConversationDto;
 import com.ChatApp.Conversation.ConversationService;
+import com.ChatApp.Exceptions.AppException;
+import com.ChatApp.Files.FileService;
 import com.ChatApp.Messages.Message;
 import com.ChatApp.Messages.MessageDto;
 import com.ChatApp.Messages.SendMessageDto;
 import com.ChatApp.Messages.MessageService;
 import com.ChatApp.WebSocket.WebSocketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,6 +29,7 @@ public class MessageController {
     private final ConversationService conversationService;
     private final UserAuthenticationProvider userAuthenticationProvider;
     private final WebSocketService webSocketService;
+    private final FileService fileService;
 
     @PostMapping("/sendmessage")
     public ResponseEntity<MessageDto> sendMessage(@RequestBody SendMessageDto sendMessageDto, Authentication authentication) {
@@ -44,11 +50,24 @@ public class MessageController {
 
 
     @PostMapping("/conversations")
-    public ResponseEntity<ConversationDto> newConversation(@RequestBody ConversationDto conversation,Authentication authentication){
+    public ResponseEntity<ConversationDto> newConversation(@RequestParam("body") ConversationDto conversation, @RequestParam(value = "file",required = false) MultipartFile groupIcon, Authentication authentication){
+        String iconId="";
+        if(groupIcon==null ||groupIcon.isEmpty()){
+
+        }else{
+            try {
+                iconId = fileService.addFile(groupIcon);
+            } catch (IOException e) {
+                throw new AppException("Upload error", HttpStatus.BAD_GATEWAY);
+            }
+        }
+        conversation.setIconUrl(iconId);
         String username= (String) authentication.getPrincipal();
         Conversation createdConversation= conversationService.createGroupConversation(conversation, username);
         return ResponseEntity.ok(ConversationDto.convertToConversationDto(createdConversation,username));
     }
+
+
 
     @GetMapping("/conversations/{conversationId}")
     public ResponseEntity<ConversationDto> getConversations(@PathVariable int conversationId, Authentication authentication){

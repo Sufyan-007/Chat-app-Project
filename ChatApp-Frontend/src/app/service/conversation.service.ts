@@ -143,7 +143,6 @@ export class ConversationService implements OnDestroy {
   sendNewMessage(message: String, sentTo: string):Promise<Messages> {
     const url = `http://localhost:8080/sendmessage`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
       Authorization: String(localStorage.getItem('token')),
     });
     const data = {
@@ -156,12 +155,19 @@ export class ConversationService implements OnDestroy {
   
 
 
-  createGroup(conversationName:string|String,users:User[]):Observable<Conversation> {
+  createGroup(conversationName:string|String,description:String|string,users:User[],groupIcon:File|null):Observable<Conversation> {
     const newConv={
       conversationName: conversationName,
+      description:description,
       users: users
     }
-    const data=JSON.stringify(newConv);
+    const body=JSON.stringify(newConv);
+    const data =new FormData();
+    data.append("body",body)
+    if(groupIcon!=null){
+      data.append("groupIcon",groupIcon)
+    }
+
     const url = `http://localhost:8080/conversations`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -6,5 +6,6 @@ export interface Conversation {
     users:User[]
     latestMessage:string;
     conversationName:string;
+    description:string;
     iconUrl:string;
 }

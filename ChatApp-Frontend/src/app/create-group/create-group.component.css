@@ -8,3 +8,16 @@
     border-radius: 10px;
     background-color: rgba(255, 255,255,0.4);
 }
+.avatar{
+    height:100%;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 3.5rem;
+    object-fit: cover;
+}
+.avatar-input:hover{
+    cursor: pointer;
+}
+.w1{
+    aspect-ratio: 1/1;
+}
