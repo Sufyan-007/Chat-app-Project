@@ -49,9 +49,6 @@ public class MessageService {
                 .message(sendMessageDto.getMessage())
                 .sender(sender)
                 .build();
-
-
-
         message= messageRepo.save(message);
         conversation.setLatestMessage(message);
         conversation = conversationRepo.save(conversation);

@@ -1,52 +1,87 @@
 <div class="row h-100">
-    <div class="container-fluid d-flex flex-column h-100 bg-dark-subtle  ">
-        <!-- <div class="row w-100">
+  <div class="container-fluid d-flex flex-column h-100 bg-dark-subtle">
+    <!-- <div class="row w-100">
                 <div class="col"> -->
-        <div class="row">
-            <div class="col my-3 h2">
-                Create New Group
-            </div>
-        </div>
-        <form class="form-floating mt-1 mb-1 text-black-50 row m-2">
-            <input type="username" id="groupName" name="groupName" [(ngModel)]="groupName"
-                    #group_name="ngModel" required class="form-control" placeholder="Group Name" >
-            <label for="groupName" class="z-0">Group Name</label>
-        </form>
-        <div *ngIf="group_name.invalid && group_name.touched" class="row m-2 text-danger">
-            Please Enter Group Name
-        </div>
-
-        <div class="row m-2">
-            Add Members:
-            <input class="form-control  m-0 shadow-none " placeholder="Search" (input)="search($event)">
-            <div  class="d-flex flex-wrap ">
-                <div title="click to remove" *ngFor="let user of searchResults; index as i" class="text-center m-2 user" (click)="addUser(user)">
-                    <img class=" m-1 icon mx-2" [src]="user.profilePictureUrl" onerror=" this.src='../../assets/Icons/person-circle.svg'">
-                    <p class="text-center mb-1">{{user.username}} </p>
-                </div>
-            </div>
-        </div>
-        <div class="row m-2 flex-grow-1">
-            <div class="d-flex p-0 flex-column align-items-start flex-grow-1">
-                <strong>Members:</strong>
-                <div class="d-flex flex-wrap ">
-                    <div title="click to remove" *ngFor="let user of groupUsers; index as i" class="text-center m-2 user" (click)="removeUser(user)">
-                        <img class=" m-1 icon mx-2" [src]="user.profilePictureUrl" onerror=" this.src='../../assets/Icons/person-circle.svg'">
-                        <p class="text-center mb-1">{{user.username}} </p>
-                    </div>
-                    <div *ngIf="groupUsers.size<1" class="text-danger">
-                        Add at least one other member
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div title="Enter Group Name and at least one member"  class="row m-3">
-            <button (click)="createGroup()" type="submit" #createBtn [disabled]="group_name.invalid || groupUsers.size<1" class="btn btn-primary">
-                Create Group
-            </button>
-        </div>
-
+    <div class="row">
+      <div class="col my-3 h2">Create New Group</div>
     </div>
+    <form class="form-floating mt-1 mb-1 text-black-50 row m-2">
+      <input
+        type="username"
+        id="groupName"
+        name="groupName"
+        [(ngModel)]="groupName"
+        #group_name="ngModel"
+        required
+        class="form-control"
+        placeholder="Group Name"
+      />
+      <label for="groupName" class="z-0">Group Name</label>
+    </form>
+    <div
+      *ngIf="group_name.invalid && group_name.touched"
+      class="row m-2 text-danger"
+    >
+      Please Enter Group Name
+    </div>
+
+    <div class="row m-2">
+      Add Members:
+      <input
+        class="form-control m-0 shadow-none"
+        placeholder="Search"
+        (input)="search($event)"
+      />
+      <div class="d-flex flex-wrap">
+        <div
+          title="click to remove"
+          *ngFor="let user of searchResults; index as i"
+          class="text-center m-2 user"
+          (click)="addUser(user)"
+        >
+          <img
+            class="m-1 icon mx-2"
+            [src]="user.profilePictureUrl"
+            onerror=" this.src='../../assets/Icons/person-circle.svg'"
+          />
+          <p class="text-center mb-1">{{ user.username }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row m-2 flex-grow-1">
+      <div class="d-flex p-0 flex-column align-items-start flex-grow-1">
+        <strong>Members:</strong>
+        <div class="d-flex flex-wrap">
+          <div
+            title="click to remove"
+            *ngFor="let user of groupUsers; index as i"
+            class="text-center m-2 user"
+            (click)="removeUser(user)"
+          >
+            <img
+              class="m-1 icon mx-2"
+              [src]="user.profilePictureUrl"
+              onerror=" this.src='../../assets/Icons/person-circle.svg'"
+            />
+            <p class="text-center mb-1">{{ user.username }}</p>
+          </div>
+          <div *ngIf="groupUsers.size < 1" class="text-danger">
+            Add at least one other member
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div title="Enter Group Name and at least one member" class="row m-3">
+      <button
+        (click)="createGroup()"
+        type="submit"
+        #createBtn
+        [disabled]="group_name.invalid || groupUsers.size < 1"
+        class="btn btn-primary"
+      >
+        Create Group
+      </button>
+    </div>
+  </div>
 </div>

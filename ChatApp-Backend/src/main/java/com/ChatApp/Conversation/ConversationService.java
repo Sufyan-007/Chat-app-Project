@@ -60,6 +60,7 @@ public class ConversationService {
         return conversationRepo.save(conversation);
     }
 
+    @Transactional
     public Conversation findOrCreateConversationByUsers(User user1,User user2) {
         String username1=Integer.toHexString( user1.getId());
         String username2=Integer.toHexString( user2.getId());

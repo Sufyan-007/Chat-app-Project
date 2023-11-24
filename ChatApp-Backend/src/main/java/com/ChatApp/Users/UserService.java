@@ -56,9 +56,8 @@ public class UserService {
 
 
     public User findByUsername(String username) {
-        username=username.toLowerCase();
-        return userRepo.findByUsername(username).orElseThrow(
-                ()-> new AppException("User 'username' not found",HttpStatus.NOT_FOUND)
+        return userRepo.findByUsername(username.toLowerCase()).orElseThrow(
+                ()-> new AppException("User "+username+" not found",HttpStatus.NOT_FOUND)
         );
     }
 

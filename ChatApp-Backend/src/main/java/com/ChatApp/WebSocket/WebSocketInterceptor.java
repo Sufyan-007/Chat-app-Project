@@ -26,7 +26,7 @@ public class WebSocketInterceptor implements ChannelInterceptor {
 
             try {
                 String auth = accessor.getNativeHeader("Authorization").get(0);
-                System.out.println(auth);
+
             }
             catch (Exception e){
                 throw new AppException("Invalid Authorization ", HttpStatus.UNAUTHORIZED);

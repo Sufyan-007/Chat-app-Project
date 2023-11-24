@@ -15,6 +15,7 @@ import { HttpCustomInterceptor } from './http-interceptor.interceptor';
 import { NewConversationComponent } from './new-conversation/new-conversation.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { LimitStringPipe } from './custom-pipes/limit-string.pipe';
+import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
 
 
 
@@ -31,6 +32,7 @@ import { LimitStringPipe } from './custom-pipes/limit-string.pipe';
     NewConversationComponent,
     CreateGroupComponent,
     LimitStringPipe,
+    ConversationDetailsComponent,
     
   ],
   imports: [

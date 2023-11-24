@@ -31,7 +31,7 @@ export class ConversationComponent
   conversationId!:number;
   conversation!: Conversation;
   @ViewChild('chatbox') private chatbox!: ElementRef;
-
+  showDetails=false;
   messages: Messages[]=[];
   autoscroll=false;
 
@@ -110,5 +110,9 @@ export class ConversationComponent
       // })
       // this.refreshConversation()
     }
+  }
+
+  toggleDetails(){
+    this.showDetails=!this.showDetails
   }
 }
