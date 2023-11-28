@@ -3,6 +3,7 @@ package com.ChatApp.Controllers;
 
 import com.ChatApp.Users.UserDetailsDto;
 import com.ChatApp.Users.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,11 @@ public class UsersController {
 
     @PostMapping("/users")
     public ResponseEntity<List<UserDetailsDto>> getUsers(@RequestBody String username) {
-
         return ResponseEntity.ok(userService.getUsers(username));
+    }
 
+    @GetMapping("/user/{username}")
+    public ResponseEntity<UserDetailsDto> getUser(@PathVariable String username) {
+        return ResponseEntity.ok(UserDetailsDto.convertToUserDetailsDto( userService.findByUsername(username)));
     }
 }

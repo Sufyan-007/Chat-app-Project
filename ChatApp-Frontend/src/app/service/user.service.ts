@@ -27,4 +27,14 @@ export class UserService {
     }))
   }
 
+  findUser(username:string):Observable<User> {
+    const url="http://localhost:8080/user/"+username
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': String(localStorage.getItem('token'))
+    })
+    return this.http.get<User>(url, {headers})
+  }
+
+
 }

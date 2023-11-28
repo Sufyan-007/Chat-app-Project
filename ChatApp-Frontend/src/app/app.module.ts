@@ -16,6 +16,9 @@ import { NewConversationComponent } from './new-conversation/new-conversation.co
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { LimitStringPipe } from './custom-pipes/limit-string.pipe';
 import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -33,13 +36,16 @@ import { ConversationDetailsComponent } from './conversation-details/conversatio
     CreateGroupComponent,
     LimitStringPipe,
     ConversationDetailsComponent,
+    ProfilePageComponent,
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserModule,
+    MatDialogModule
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS, useClass:HttpCustomInterceptor, multi:true},

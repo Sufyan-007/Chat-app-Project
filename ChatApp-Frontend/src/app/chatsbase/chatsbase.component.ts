@@ -21,8 +21,6 @@ export class ChatsbaseComponent implements OnInit,OnDestroy{
       console.log("Init")
       this.router.navigate(["/"]);
     }
-    else{
-    }
 
   }
   convSelect(event: Conversation) {

@@ -34,8 +34,31 @@ public class MessageController {
     @PostMapping("/sendmessage")
     public ResponseEntity<MessageDto> sendMessage(@RequestBody SendMessageDto sendMessageDto, Authentication authentication) {
         String username= (String) authentication.getPrincipal();
+        System.out.println("In send message");
 
         Message message=messageService.newMessage(sendMessageDto,username);
+        System.out.println("Message Stored");
+        return ResponseEntity.ok(MessageDto.convertToMessageDto(message));
+    }
+
+    @PostMapping("/sendattachment")
+    public ResponseEntity<MessageDto> sendAttachment(@RequestParam("conversationId") int conversationId,@RequestParam(value="file",required=true) MultipartFile file,Authentication authentication){
+        String username= (String) authentication.getPrincipal();
+        String fileId="";
+        if(file==null|| file.isEmpty()){
+            throw new AppException("File is empty", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            fileId = fileService.addFile(file);
+        } catch (IOException e) {
+            throw new AppException("Upload error", HttpStatus.BAD_GATEWAY);
+        }
+        SendMessageDto messageDto = SendMessageDto.builder().message(fileId).media(true)
+                .conversationId(conversationId).build();
+
+
+
+        Message message=messageService.newMessage(messageDto,username);
         System.out.println("Message Stored");
         return ResponseEntity.ok(MessageDto.convertToMessageDto(message));
     }

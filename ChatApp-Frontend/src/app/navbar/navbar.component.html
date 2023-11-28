@@ -9,12 +9,12 @@
         <div class=" dropdown p-0 border-0  ">
             <button class="p-0 m-0 rounded-circle  border-0"  data-bs-toggle="dropdown">
                 <img class="p-0 m-0 profile-icon border-0 " alt="" 
-                    src="../../assets/Icons/person-circle.svg"  onerror=""
+                    [src]="user.profilePictureUrl"  onerror="this.src='../../assets/Icons/person-circle.svg'"
                 >
             </button>
             
            <div class="dropdown-menu p-0 dropdown-menu-end mt-3 rounded-2 border-3">
-                <button class="bg-light dropdown-item rounded-top-1 " >Profile</button>
+                <button class="bg-light dropdown-item rounded-top-1 " (click)="openProfile()">Profile</button>
                 <button class="bg-danger dropdown-item rounded-bottom-1" (click)="logout()">Logout</button>
                 <!-- <button class="btn bg-color-inv m-1" (click)="darkTheme()">Dark Theme</button> -->
             </div> 

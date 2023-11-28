@@ -26,7 +26,10 @@
             </div>
             <div class="row" [class.justify-content-end]="message.self">
               <div class="col col-auto m-2 p-2 bg-dark-subtle rounded-2">
-                {{ message.message }}
+                <p *ngIf="!message.media">{{ message.message }}</p>
+                <a *ngIf="message.media" [href]="message.message" target="_blank">
+                  <img [src]="message.message" alt="Sent File" class="w-100">
+                </a>
               </div>
             </div>
           </div>
@@ -44,14 +47,16 @@
             <img class="h-100 ps-2 py-1" src="../../assets/Icons/paper-plane-svgrepo-com.svg" />
           </button>
           <button *ngIf="messageInput.trim().length <= 0" class="btn rounded-5 h-75 p-0 ratio-1x1 border-0"
-            [disabled]="!messageInput" (click)="sendMessage(messageInput)">
-            <img class="h-100 ps-2 py-1" src="../../assets/Icons/paper-plane-svgrepo-com.svg" />
+            (click)="openFile()">
+            <img class="h-100 ps-2 py-1" src="../../assets/Icons/add-folder-svgrepo-com.svg" />
+            <input type="file" id="fileInput" (change)="fileSelected($event)" style="display: none;">
           </button>
+
         </div>
       </div>
     </div>
   </div>
-  <app-conversation-details *ngIf="showDetails ||true" (closeEvent)="toggleDetails()"
+  <app-conversation-details *ngIf="showDetails " (closeEvent)="toggleDetails()"
     class="col-6 col-md-4 bg-dark-subtle d-flex flex-column h-100" [conversation]="conversation">
   </app-conversation-details>
 </div>

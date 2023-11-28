@@ -24,6 +24,7 @@ export class ConversationService implements OnDestroy {
   result = new BehaviorSubject<Record<Conversation['id'], Conversation>>({});
   receivedMessages!: Subject<Messages>;
   conversationMessages = new BehaviorSubject<Messages[]>([]);
+  activeConversation: number = -1;
 
   //Lifecycle methods
   ngOnDestroy(): void {
@@ -41,25 +42,31 @@ export class ConversationService implements OnDestroy {
   connectToServer(): void {
     this.receivedMessages = this.webSocketService.getRecievedMessage();
     this.receivedMessages.subscribe((message: Messages) => {
-      if(this.allMessages[message.conversationId]!=undefined){
+      if (this.allMessages[message.conversationId] != undefined) {
         this.allMessages[message.conversationId].push(message);
+      } else {
+        this.allMessages[message.conversationId] = [message];
       }
-      else{
-        this.allMessages[message.conversationId]=[message]
+      if (this.activeConversation == message.conversationId) {
+        this.conversationMessages.next(
+          this.allMessages[message.conversationId]
+        );
       }
-      this.conversationMessages.next(this.allMessages[message.conversationId]);
-      if(this.conversations[message.conversationId]==undefined) {
+      if (this.conversations[message.conversationId] == undefined) {
         this.getConversationById(message.conversationId).unsubscribe();
-      }else{
-        this.conversations[message.conversationId].latestMessage=message.message;
+      } else {
+        this.conversations[message.conversationId].latestMessage =
+          message.message;
       }
     });
   }
 
   getConversations(): Subject<Record<Conversation['id'], Conversation>> {
-    if(this.result.closed){this.result = new BehaviorSubject<Record<Conversation['id'], Conversation>>(
-      {}
-    );}
+    if (this.result.closed) {
+      this.result = new BehaviorSubject<
+        Record<Conversation['id'], Conversation>
+      >({});
+    }
     if (this.conversations) {
       const url = 'http://localhost:8080/conversations';
       const headers = new HttpHeaders({
@@ -95,7 +102,7 @@ export class ConversationService implements OnDestroy {
         .get<Conversation>(url, { headers: headers })
         .subscribe((response) => {
           this.conversations[response.id] = response;
-          this.result.next(this.conversations)
+          this.result.next(this.conversations);
           conv.next(response);
         });
     } else {
@@ -103,7 +110,6 @@ export class ConversationService implements OnDestroy {
     }
     return conv;
   }
-  
 
   refresgetConversations(): void {
     if (this.conversations) {
@@ -117,7 +123,7 @@ export class ConversationService implements OnDestroy {
       'Content-Type': 'application/json',
       Authorization: String(localStorage.getItem('token')),
     });
-
+    this.activeConversation = conversationId;
     this.http
       .get<Messages[]>(url, { headers: headers })
       .subscribe((messages) => {
@@ -127,7 +133,7 @@ export class ConversationService implements OnDestroy {
     return this.conversationMessages;
   }
 
-  sendMessage(message: String, conversationId: number):Promise<Messages> {
+  sendMessage(message: String, conversationId: number): Promise<Messages> {
     const url = `http://localhost:8080/sendmessage`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -140,7 +146,7 @@ export class ConversationService implements OnDestroy {
     const response = this.http.post<Messages>(url, data, { headers });
     return lastValueFrom(response);
   }
-  sendNewMessage(message: String, sentTo: string):Promise<Messages> {
+  sendNewMessage(message: String, sentTo: string): Promise<Messages> {
     const url = `http://localhost:8080/sendmessage`;
     const headers = new HttpHeaders({
       Authorization: String(localStorage.getItem('token')),
@@ -152,20 +158,36 @@ export class ConversationService implements OnDestroy {
     const response = this.http.post<Messages>(url, data, { headers });
     return lastValueFrom(response);
   }
-  
 
+  sendAttachment(conversationId: number, attachment: File) {
+    const url = `http://localhost:8080/sendattachment`;
+    const headers = new HttpHeaders({
+      Authorization: String(localStorage.getItem('token')),
+    });
+    const data = new FormData();
+    data.append('file', attachment);
+    data.append('conversationId', conversationId.toString());
+    console.log('Attachment');
+    const request = this.http.post<Messages>(url, data, { headers });
+    return lastValueFrom(request);
+  }
 
-  createGroup(conversationName:string|String,description:String|string,users:User[],groupIcon:File|null):Observable<Conversation> {
-    const newConv={
+  createGroup(
+    conversationName: string | String,
+    description: String | string,
+    users: User[],
+    groupIcon: File | null
+  ): Observable<Conversation> {
+    const newConv = {
       conversationName: conversationName,
-      description:description,
-      users: users
-    }
-    const body=JSON.stringify(newConv);
-    const data =new FormData();
-    data.append("body",body)
-    if(groupIcon!=null){
-      data.append("groupIcon",groupIcon)
+      description: description,
+      users: users,
+    };
+    const body = JSON.stringify(newConv);
+    const data = new FormData();
+    data.append('body', body);
+    if (groupIcon != null) {
+      data.append('groupIcon', groupIcon);
     }
 
     const url = `http://localhost:8080/conversations`;
@@ -175,6 +197,5 @@ export class ConversationService implements OnDestroy {
     });
 
     return this.http.post<Conversation>(url, data, { headers });
-    
   }
 }

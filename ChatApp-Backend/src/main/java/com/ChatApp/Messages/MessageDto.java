@@ -26,9 +26,13 @@ public class MessageDto {
     private Timestamp updatedAt;
 
     public static MessageDto convertToMessageDto(Message message){
+        String messageString=message.getMessage();
+        if(message.isMedia()){
+            messageString="http://localhost:8080/file/download/"+messageString;
+        }
         return new MessageDto(
                 message.getConversation().getId(),
-                message.getMessage(),message.isMedia(),UserDetailsDto.convertToUserDetailsDto( message.getSender()),
+                messageString,message.isMedia(),UserDetailsDto.convertToUserDetailsDto( message.getSender()),
                 message.getSentAt(),message.getUpdatedAt()
         );
     }

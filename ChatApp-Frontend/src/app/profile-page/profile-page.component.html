@@ -1,0 +1,28 @@
+<div class=" container-fluid h-100 bg-dark-subtle m-0 d-flex flex-column">
+    <div class="row p-2">
+        <div class="col-1"><button type="button" class="btn-close shadow-none btn-close-size" (click)="close()"></button></div>
+        <div class="col-10 fs-4 text-center">
+            {{user.username |uppercase}}
+        </div>
+    </div>
+    <div class="row flex-grow-1 overflow-x-hidden mt-3">
+        <div class="col ">
+            <div class="row overflow-x-hidden">
+                <div class="col-4 offset-4 p-0 text-center ">
+                    <img class=" p-0 w-50 m-0 rounded-circle conversation-icon " src="{{ user.profilePictureUrl }}"
+                        onerror="this.src='../../assets/Icons/person-circle.svg'" />
+                    <p>Add or Change Profile Picture</p>
+                </div>
+            </div>
+            <div class="row  justify-content-center fs-4">
+                
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex m-2">
+        <div class="col text-center">
+            <button class="btn btn-secondary me-5">Close</button>
+            <button class="btn btn-primary ms-5">Update</button>
+        </div>
+    </div>
+</div>

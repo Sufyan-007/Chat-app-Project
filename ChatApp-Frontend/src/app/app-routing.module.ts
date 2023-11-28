@@ -6,6 +6,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { NewConversationComponent } from './new-conversation/new-conversation.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
       {path:"create-group", component: CreateGroupComponent},
     ],
   },
+  { path: 'profile', component: ProfilePageComponent },
   
   { path: '', component: LoginComponent },
   

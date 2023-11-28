@@ -20,18 +20,18 @@ public class RestExceptionHandler {
                 .body(ex.getMessage());
     }
 
-    @ExceptionHandler(value = { IOException.class})
-    @ResponseBody
-    public ResponseEntity<String> handleException(IOException ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_GATEWAY).body("Failed file transfer");
-    }
+//    @ExceptionHandler(value = { IOException.class})
+//    @ResponseBody
+//    public ResponseEntity<String> handleException(IOException ex) {
+//        return ResponseEntity
+//                .status(HttpStatus.BAD_GATEWAY).body("Failed file transfer");
+//    }
 
-    @ExceptionHandler(value = { Exception.class})
-    @ResponseBody
-    public ResponseEntity<String> handleException(Exception ex) {
-        System.out.println(ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR).body("The server has ran into trouble");
-    }
+//    @ExceptionHandler(value = { Exception.class})
+//    @ResponseBody
+//    public ResponseEntity<String> handleException(Exception ex) {
+//        System.out.println(ex.getMessage());
+//        return ResponseEntity
+//                .status(HttpStatus.INTERNAL_SERVER_ERROR).body("The server has ran into trouble");
+//    }
 }

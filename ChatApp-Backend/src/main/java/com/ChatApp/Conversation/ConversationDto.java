@@ -26,7 +26,12 @@ public class ConversationDto {
         String iconUrl="";
         String description="";
         if(conversation.getLatestMessage()!=null){
-            message = conversation.getLatestMessage().getMessage();
+            if(conversation.getLatestMessage().isMedia()){
+                message="Media file";
+            }
+            else{
+                message = conversation.getLatestMessage().getMessage();
+            }
         }
         String conversationName;
         if(conversation.isGroupChat()){

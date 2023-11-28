@@ -44,7 +44,7 @@ public class MessageService {
 //            conversation=conversationRepo.findById(conversation.getId()).orElseThrow();
         }
         Message message= Message.builder()
-                .media(false)
+                .media(sendMessageDto.isMedia())
                 .conversation(conversation)
                 .message(sendMessageDto.getMessage())
                 .sender(sender)

@@ -20,41 +20,40 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-conversation',
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.css'],
-  host:{
-    class:'col h-100 '
-  }
+  host: {
+    class: 'col h-100 ',
+  },
 })
-
-export class ConversationComponent
-  implements  OnChanges,  AfterViewChecked
-{
-  conversationId!:number;
+export class ConversationComponent implements OnChanges, AfterViewChecked {
+  conversationId!: number;
   conversation!: Conversation;
   @ViewChild('chatbox') private chatbox!: ElementRef;
-  showDetails=false;
-  messages: Messages[]=[];
-  autoscroll=false;
+  showDetails = false;
+  messages: Messages[] = [];
+  autoscroll = false;
 
-  constructor(private conversationService: ConversationService,private route:ActivatedRoute) {
-    this.route.paramMap.subscribe((param)=>{
-      if(param!=null ){
-        this.conversationId=param.get("id") as unknown as number;
+  constructor(
+    private conversationService: ConversationService,
+    private route: ActivatedRoute
+  ) {
+    this.route.paramMap.subscribe((param) => {
+      if (param != null) {
+        this.conversationId = param.get('id') as unknown as number;
         this.MyOnInit();
       }
-
-    })
-    
+    });
   }
 
   MyOnInit(): void {
-    
-    this.conversationService.getConversationById(this.conversationId).subscribe((result)=>{
-      this.conversation=result;
-      this.refreshConversation();
-    })
+    this.conversationService
+      .getConversationById(this.conversationId)
+      .subscribe((result) => {
+        this.conversation = result;
+        this.refreshConversation();
+      });
     // this.messages=this.conversationService.getMessages(this.conversation.id);
-    
-      this.autoscroll=true
+
+    this.autoscroll = true;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,13 +62,11 @@ export class ConversationComponent
     //   this.autoscroll=true
     // }
   }
-  
 
   ngAfterViewChecked(): void {
-    if (this.messages!.length>0 && this.autoscroll) {
-      
+    if (this.messages!.length > 0 && this.autoscroll) {
       this.scrollToBottom();
-      this.autoscroll=false;
+      this.autoscroll = false;
     }
   }
 
@@ -78,7 +75,7 @@ export class ConversationComponent
       this.chatbox.nativeElement.scrollHeight;
   }
 
-  messageInput: string | any="";
+  messageInput: string | any = '';
 
   refreshConversation() {
     this.conversationService
@@ -95,7 +92,6 @@ export class ConversationComponent
       )
       .subscribe((messages) => {
         this.messages = messages;
-        
       });
   }
   sendMessage(message: string) {
@@ -104,15 +100,25 @@ export class ConversationComponent
       this.messageInput = '';
       this.autoscroll = true;
       this.conversationService.sendMessage(message, this.conversation.id);
-      // .then((message) => {
-      //   message.self=true
-      //   this.messages?.push(message)
-      // })
-      // this.refreshConversation()
     }
   }
 
-  toggleDetails(){
-    this.showDetails=!this.showDetails
+  toggleDetails() {
+    this.showDetails = !this.showDetails;
+  }
+
+  openFile() {
+    document.getElementById('fileInput')!.click();
+  }
+
+  fileSelected(event: any) {
+    const file = event.target.files[0];
+    const allowedType = ['image/jpeg', 'image/png'];
+
+    if (file.size <= 5 * 1024 * 1024) {
+      this.conversationService.sendAttachment(this.conversation.id, file);
+    } else {
+      alert('File size too large (max: 5MB)');
+    }
   }
 }
