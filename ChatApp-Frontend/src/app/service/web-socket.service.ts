@@ -22,9 +22,14 @@ export class WebSocketService{
   recievedMessage:Subject<Messages> = new Subject<Messages>();
 
   constructor() { 
+    this.webWorker()
     this.connectToServer()
     this.stompClient.debug=()=>{}
   }
+  webWorker(){
+    
+  }
+
   connectToServer() {
     
     if(this.stompClient.connected){

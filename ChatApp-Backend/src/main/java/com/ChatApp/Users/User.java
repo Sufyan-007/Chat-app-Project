@@ -33,6 +33,9 @@ public class User {
     @Size(max = 255)
     private String password;
 
+    @Size(max=255)
+    private String bio;
+
     @Column()
     private String profilePictureUrl;
 
@@ -40,11 +43,12 @@ public class User {
     private List<Conversation> conversations;
 
 
-    public User(String username, String name, String email, String password, String profilePictureUrl) {
+    public User(String username, String name, String email, String password,String bio, String profilePictureUrl) {
         this.username = username;
         this.name=name;
         this.email = email;
         this.password = password;
+        this.bio=bio;
         if(!profilePictureUrl.isEmpty()){
             this.profilePictureUrl=profilePictureUrl;
         }

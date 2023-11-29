@@ -34,10 +34,9 @@ public class MessageController {
     @PostMapping("/sendmessage")
     public ResponseEntity<MessageDto> sendMessage(@RequestBody SendMessageDto sendMessageDto, Authentication authentication) {
         String username= (String) authentication.getPrincipal();
-        System.out.println("In send message");
+
 
         Message message=messageService.newMessage(sendMessageDto,username);
-        System.out.println("Message Stored");
         return ResponseEntity.ok(MessageDto.convertToMessageDto(message));
     }
 
@@ -108,10 +107,5 @@ public class MessageController {
         return ResponseEntity.ok(MessageDto.convertToMessageDto(messages));
     }
 
-    @GetMapping("/demo")
-    public String getDemo(){
-        webSocketService.sendMessage("hello","Hello");
-        return "Hello";
-    }
 
 }

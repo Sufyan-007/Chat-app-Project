@@ -1,0 +1,7 @@
+.user-icon{
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+.icon-holder:hover{
+    cursor: pointer;
+}

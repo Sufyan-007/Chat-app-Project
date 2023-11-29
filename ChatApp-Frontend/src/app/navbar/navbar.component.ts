@@ -22,7 +22,6 @@ export class NavbarComponent implements OnInit {
       .findUser(localStorage.getItem('username') as string)
       .subscribe((user) => {
         this.user = user;
-        this.openProfile();
       });
   }
 
@@ -33,13 +32,17 @@ export class NavbarComponent implements OnInit {
 
   openProfile() {
     if (this.user != null) {
-      this.dialog.open(ProfilePageComponent, {
+      const ref=this.dialog.open(ProfilePageComponent, {
         data: {
           user: this.user,
         },
-        height: '600px',
         width: '700px',
       });
+      ref.afterClosed().subscribe((data) => {
+        if (data!= null) {
+          this.user = data;
+        }
+      })
     }
   }
 }

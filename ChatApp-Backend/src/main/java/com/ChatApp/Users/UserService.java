@@ -33,6 +33,7 @@ public class UserService {
                 userRegisterDto.getName(),
                 userRegisterDto.getEmail(),
                 passwordEncoder.encode(CharBuffer.wrap(userRegisterDto.getPassword())),
+                "",
                 profilePictureId
         );
         return userRepo.save(user);
@@ -52,6 +53,17 @@ public class UserService {
 
         throw new AppException("Incorrect password",HttpStatus.UNAUTHORIZED);
 
+    }
+
+    public User updateUser(String username,UserDetailsDto userDetailsDto, String profilePictureId){
+        User user= userRepo.findByUsername(username).orElseThrow(()->new AppException("User not found",HttpStatus.NOT_FOUND));
+        user.setName(userDetailsDto.getName());
+        user.setEmail(userDetailsDto.getEmail());
+        user.setBio(userDetailsDto.getBio());
+        if (!profilePictureId.isEmpty()){
+            user.setProfilePictureUrl(profilePictureId);
+        }
+        return userRepo.save(user);
     }
 
 

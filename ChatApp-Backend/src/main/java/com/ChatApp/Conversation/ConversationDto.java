@@ -46,6 +46,7 @@ public class ConversationDto {
             Set<User> users=conversation.getParticipants();
             User user2 = users.stream().filter((user1) -> !user1.getUsername().equals(username)).findFirst().get();
             conversationName=user2.getUsername();
+            description=user2.getBio();
             if(user2.getProfilePictureUrl()!=null){
                 iconUrl="http://localhost:8080/file/download/"+ user2.getProfilePictureUrl();
             }

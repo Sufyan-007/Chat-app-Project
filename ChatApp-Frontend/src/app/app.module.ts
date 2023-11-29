@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -45,7 +45,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     HttpClientModule,
     BrowserModule,
-    MatDialogModule
+    MatDialogModule,
+    
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS, useClass:HttpCustomInterceptor, multi:true},

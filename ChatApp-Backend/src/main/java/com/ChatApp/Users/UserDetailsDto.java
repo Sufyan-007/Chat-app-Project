@@ -12,8 +12,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDetailsDto {
     private String username;
-
+    private String name;
     private String email;
+    private String bio;
     private String profilePictureUrl;
 
 
@@ -25,6 +26,6 @@ public class UserDetailsDto {
         if(profilePictureUrl!=null && !profilePictureUrl.isEmpty()){
             profilePictureUrl="http://localhost:8080/file/download/"+profilePictureUrl;
         }
-        return new UserDetailsDto(user.getUsername(),user.getEmail(),profilePictureUrl);}
+        return new UserDetailsDto(user.getUsername(), user.getName(), user.getEmail(),user.getBio(),profilePictureUrl);}
 
 }
