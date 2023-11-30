@@ -34,7 +34,7 @@ public class SecurityFilter {
                             requests.requestMatchers(HttpMethod.GET,"/login","/register").permitAll()
                                     .requestMatchers("/ws/**").permitAll()
                                     .requestMatchers("/file/**").permitAll()
-                                    .requestMatchers(HttpMethod.POST,"/register","/login").permitAll()
+                                    .requestMatchers(HttpMethod.POST,"/register","/login","/recovery-request","/update-password").permitAll()
                                     .anyRequest().authenticated();
 
 

@@ -11,6 +11,13 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
 
     Set<User> findTop10ByUsernameStartsWithOrEmailStartsWith(String username,String email);
+
+    Optional<User> findByUsernameOrEmail(String username,String email);
+
+    default Optional<User> findByUsernameOrEmail(String usernameOrEmail){
+        return findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
+    }
+
     default Set<User> findTop10Users(String usernameOrEmail){
         return findTop10ByUsernameStartsWithOrEmailStartsWith(usernameOrEmail,usernameOrEmail);
     };

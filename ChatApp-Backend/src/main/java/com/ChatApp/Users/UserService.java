@@ -78,4 +78,16 @@ public class UserService {
         Set<User> users= userRepo.findTop10Users(usernameOrEmail);
         return UserDetailsDto.convertToUserDetailsDto(users);
     }
+
+    public User findByUsernameOrEmail(String usernameOrEmail) {
+        return userRepo.findByUsernameOrEmail(usernameOrEmail.toLowerCase(),usernameOrEmail.toLowerCase()).orElseThrow(
+                ()-> new AppException("User "+usernameOrEmail+" not found",HttpStatus.NOT_FOUND)
+        );
+    }
+
+    public void updatePassword(User user,String newPassword) {
+
+        user.setPassword(passwordEncoder.encode(CharBuffer.wrap(newPassword)));
+        userRepo.save(user);
+    }
 }

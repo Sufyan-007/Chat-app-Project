@@ -11,6 +11,8 @@ import com.ChatApp.Messages.MessageDto;
 import com.ChatApp.Messages.SendMessageDto;
 import com.ChatApp.Messages.MessageService;
 import com.ChatApp.WebSocket.WebSocketService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,7 @@ public class MessageController {
     private final UserAuthenticationProvider userAuthenticationProvider;
     private final WebSocketService webSocketService;
     private final FileService fileService;
+    private final ObjectMapper objectMapper;
 
     @PostMapping("/sendmessage")
     public ResponseEntity<MessageDto> sendMessage(@RequestBody SendMessageDto sendMessageDto, Authentication authentication) {
@@ -58,7 +61,6 @@ public class MessageController {
 
 
         Message message=messageService.newMessage(messageDto,username);
-        System.out.println("Message Stored");
         return ResponseEntity.ok(MessageDto.convertToMessageDto(message));
     }
 
@@ -72,8 +74,14 @@ public class MessageController {
 
 
     @PostMapping("/conversations")
-    public ResponseEntity<ConversationDto> newConversation(@RequestParam("body") ConversationDto conversation, @RequestParam(value = "file",required = false) MultipartFile groupIcon, Authentication authentication){
+    public ResponseEntity<ConversationDto> newConversation(@RequestParam("body") String conversationJson, @RequestParam(value = "file",required = false) MultipartFile groupIcon, Authentication authentication){
         String iconId="";
+        ConversationDto conversation = null;
+        try {
+            conversation = objectMapper.readValue(conversationJson, ConversationDto.class);
+        } catch (JsonProcessingException e) {
+            throw new AppException("Invalid conversation format",HttpStatus.BAD_REQUEST);
+        }
         if(groupIcon==null ||groupIcon.isEmpty()){
 
         }else{

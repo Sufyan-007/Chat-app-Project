@@ -24,7 +24,7 @@ import { ActivatedRoute } from '@angular/router';
     class: 'col h-100 ',
   },
 })
-export class ConversationComponent implements OnChanges, AfterViewChecked {
+export class ConversationComponent implements  AfterViewChecked {
   conversationId!: number;
   conversation!: Conversation;
   @ViewChild('chatbox') private chatbox!: ElementRef;
@@ -51,22 +51,17 @@ export class ConversationComponent implements OnChanges, AfterViewChecked {
         this.conversation = result;
         this.refreshConversation();
       });
-    // this.messages=this.conversationService.getMessages(this.conversation.id);
-
     this.autoscroll = true;
+
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (this.conversation) {
-    //   this.refreshConversation();
-    //   this.autoscroll=true
-    // }
-  }
+  
 
   ngAfterViewChecked(): void {
+    
     if (this.messages!.length > 0 && this.autoscroll) {
       this.scrollToBottom();
-      this.autoscroll = false;
+      // this.autoscroll = false;
     }
   }
 
@@ -115,10 +110,10 @@ export class ConversationComponent implements OnChanges, AfterViewChecked {
     const file = event.target.files[0];
     const allowedType = ['image/jpeg', 'image/png'];
 
-    if (file.size <= 5 * 1024 * 1024) {
+    if (file.size <= 50 * 1024 * 1024) {
       this.conversationService.sendAttachment(this.conversation.id, file);
     } else {
-      alert('File size too large (max: 5MB)');
+      alert('File size too large (max: 50MB)');
     }
   }
 }

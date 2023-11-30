@@ -192,7 +192,6 @@ export class ConversationService implements OnDestroy {
 
     const url = `http://localhost:8080/conversations`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
       Authorization: String(localStorage.getItem('token')),
     });
 

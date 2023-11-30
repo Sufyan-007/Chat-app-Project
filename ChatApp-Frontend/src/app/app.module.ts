@@ -19,6 +19,7 @@ import { ConversationDetailsComponent } from './conversation-details/conversatio
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 
@@ -37,6 +38,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     LimitStringPipe,
     ConversationDetailsComponent,
     ProfilePageComponent,
+    ForgotPasswordComponent,
     
   ],
   imports: [

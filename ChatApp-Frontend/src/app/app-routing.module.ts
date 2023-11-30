@@ -7,6 +7,7 @@ import { ConversationComponent } from './conversation/conversation.component';
 import { NewConversationComponent } from './new-conversation/new-conversation.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     ],
   },
   { path: 'profile', component: ProfilePageComponent },
+  {path:"forgot-password", component: ForgotPasswordComponent},
   
   { path: '', component: LoginComponent },
   
