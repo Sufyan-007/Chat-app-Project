@@ -16,7 +16,7 @@ export class WebSocketService{
 
   failCallback= (error:any) =>{
     console.log("Callback "+ error)
-    // setTimeout(this.connectToServer.bind(this),5000)
+    setTimeout(this.connectToServer.bind(this),1)
   }
 
   recievedMessage:Subject<Messages> = new Subject<Messages>();
@@ -31,6 +31,7 @@ export class WebSocketService{
   }
 
   connectToServer() {
+    console.log("Connecting to server")
     
     if(this.stompClient.connected){
       this.stompClient.disconnect();
@@ -40,6 +41,7 @@ export class WebSocketService{
     this.stompClient.connect({
       'Authorization': localStorage.getItem("token"),
     },()=>{
+      console.log("Connected")
       
       this.stompClient.subscribe("/topic/chat/"+username,(data:any)=>{
         // console.log(data.body);

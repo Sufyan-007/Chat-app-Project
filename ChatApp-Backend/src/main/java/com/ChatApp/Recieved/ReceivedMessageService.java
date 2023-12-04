@@ -6,6 +6,8 @@ import com.ChatApp.Messages.MessageDto;
 import com.ChatApp.Users.User;
 import com.ChatApp.WebSocket.WebSocketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +15,10 @@ import org.springframework.stereotype.Service;
 public class ReceivedMessageService {
     private final ReceivedMessageRepo receivedMessageRepo;
     private final WebSocketService webSocketService;
-    public void send(Message message, Conversation conversation) {
+
+    public void send(Pair<Message,Conversation> messageConversationPair) {
+        Message message = messageConversationPair.getFirst();
+        Conversation conversation = messageConversationPair.getSecond();
         for(User user : conversation.getParticipants()){
             if(!user.equals(message.getSender())){
                 receivedMessageRepo.save(ReceivedMessage.builder().receiver(user).message(message).read(false).build());
@@ -21,7 +26,6 @@ public class ReceivedMessageService {
 //                webSocketService.sendMessage("hello", MessageDto.convertToMessageDto(message));
             }
             webSocketService.sendMessage("chat/"+user.getUsername(), MessageDto.convertToMessageDto(message));
-
         }
     }
 }

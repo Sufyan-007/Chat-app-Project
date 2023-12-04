@@ -28,7 +28,7 @@ export class ConversationService implements OnDestroy {
 
   //Lifecycle methods
   ngOnDestroy(): void {
-    if (this.receivedMessages) this.receivedMessages.unsubscribe();
+    // if (this.receivedMessages) this.receivedMessages.unsubscribe();
   }
 
   constructor(
@@ -187,7 +187,7 @@ export class ConversationService implements OnDestroy {
     const data = new FormData();
     data.append('body', body);
     if (groupIcon != null) {
-      data.append('groupIcon', groupIcon);
+      data.append('file', groupIcon);
     }
 
     const url = `http://localhost:8080/conversations`;

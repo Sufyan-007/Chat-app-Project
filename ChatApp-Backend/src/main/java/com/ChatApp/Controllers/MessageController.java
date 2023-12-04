@@ -10,10 +10,12 @@ import com.ChatApp.Messages.Message;
 import com.ChatApp.Messages.MessageDto;
 import com.ChatApp.Messages.SendMessageDto;
 import com.ChatApp.Messages.MessageService;
+import com.ChatApp.Recieved.ReceivedMessageService;
 import com.ChatApp.WebSocket.WebSocketService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,7 @@ public class MessageController {
     private final ConversationService conversationService;
     private final UserAuthenticationProvider userAuthenticationProvider;
     private final WebSocketService webSocketService;
+    private final ReceivedMessageService receivedMessageService;
     private final FileService fileService;
     private final ObjectMapper objectMapper;
 
@@ -39,8 +42,9 @@ public class MessageController {
         String username= (String) authentication.getPrincipal();
 
 
-        Message message=messageService.newMessage(sendMessageDto,username);
-        return ResponseEntity.ok(MessageDto.convertToMessageDto(message));
+        Pair<Message,Conversation> res=messageService.newMessage(sendMessageDto,username);
+        receivedMessageService.send(res);
+        return ResponseEntity.ok(MessageDto.convertToMessageDto(res.getFirst()));
     }
 
     @PostMapping("/sendattachment")
@@ -80,6 +84,7 @@ public class MessageController {
         try {
             conversation = objectMapper.readValue(conversationJson, ConversationDto.class);
         } catch (JsonProcessingException e) {
+
             throw new AppException("Invalid conversation format",HttpStatus.BAD_REQUEST);
         }
         if(groupIcon==null ||groupIcon.isEmpty()){

@@ -8,6 +8,7 @@ import com.ChatApp.Recieved.ReceivedMessageService;
 import com.ChatApp.Users.User;
 import com.ChatApp.Users.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class MessageService {
     private final ConversationService conversationService;
 
     @Transactional
-    public Message newMessage(SendMessageDto sendMessageDto, String username) {
+    public Pair<Message,Conversation> newMessage(SendMessageDto sendMessageDto, String username) {
 
         User sender = userRepo.findByUsername(username).orElseThrow(()->new AppException("Invalid username",HttpStatus.FORBIDDEN));
         Conversation conversation;
@@ -52,8 +53,7 @@ public class MessageService {
         message= messageRepo.save(message);
         conversation.setLatestMessage(message);
         conversation = conversationRepo.save(conversation);
-        receivedMessageService.send(message,conversation);
-        return  message;
+        return  Pair.of(message,conversation);
 
     }
 
