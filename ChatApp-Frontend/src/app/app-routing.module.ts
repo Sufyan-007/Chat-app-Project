@@ -8,12 +8,14 @@ import { NewConversationComponent } from './new-conversation/new-conversation.co
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ChatBotComponent } from './chat-bot/chat-bot.component';
 
 const routes: Routes = [
   {
     path: 'home',
     component: ChatsbaseComponent,
     children: [
+      { path: 'chatbot', component: ChatBotComponent },
       { path: 'chat/:id', component: ConversationComponent },
       { path: 'new-dm/:id', component: NewConversationComponent }, 
       {path:"create-group", component: CreateGroupComponent},

@@ -1,0 +1,19 @@
+.profile {
+    height: 3rem;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+  }
+  .profile:hover {
+    cursor: pointer;
+  }
+  
+  .text-input {
+    height: 3rem;
+  }
+  .chatbox::-webkit-scrollbar {
+    display: none;
+  }
+  

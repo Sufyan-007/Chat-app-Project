@@ -43,4 +43,7 @@ export class ChatsComponent implements OnInit,OnDestroy{
   createGroup(){
     this.router.navigate(["/home/create-group"]);
   }
+  openBot(){
+    this.router.navigate(["/home/chatbot"]);
+  }
 }

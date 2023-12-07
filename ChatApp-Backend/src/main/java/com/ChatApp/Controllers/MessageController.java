@@ -64,8 +64,9 @@ public class MessageController {
 
 
 
-        Message message=messageService.newMessage(messageDto,username);
-        return ResponseEntity.ok(MessageDto.convertToMessageDto(message));
+        Pair<Message,Conversation> res =messageService.newMessage(messageDto,username);
+        receivedMessageService.send(res);
+        return ResponseEntity.ok(MessageDto.convertToMessageDto(res.getFirst()));
     }
 
     @GetMapping("/conversations")

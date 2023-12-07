@@ -20,6 +20,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ChatBotComponent } from './chat-bot/chat-bot.component';
 
 
 
@@ -39,6 +40,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ConversationDetailsComponent,
     ProfilePageComponent,
     ForgotPasswordComponent,
+    ChatBotComponent,
     
   ],
   imports: [

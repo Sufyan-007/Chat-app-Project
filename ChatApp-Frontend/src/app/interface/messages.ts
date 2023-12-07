@@ -8,5 +8,5 @@ export interface Messages {
     media: boolean,
     sender:User,
     sentAt: number,
-    updatedAt: Time
+    updatedAt: number
 }

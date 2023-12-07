@@ -15,7 +15,18 @@
                     </div>
                     
                 </div> -->
-                
+                <div  class=" row p-1 d-flex align-items-center">
+                    <div class="conversation  d-flex p-0 align-items-center w-100 user-select-none"
+                        (click)="openBot()" >
+                        <img class="col-2  p-0 ms-1 me-2 profile-icon" src="../../assets/Icons/chat-bot-svgrepo-com.svg"
+                            onerror="this.src='../../assets/Icons/person-circle.svg'">
+                        <div class="col">
+                            <div class="fs-6 p-0 m-0">
+                                ChatBot
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div *ngFor="let conversation of conversations  " class=" row p-1 d-flex align-items-center">
                     <div class="conversation  d-flex p-0 align-items-center w-100 user-select-none"
                         (click)="open(conversation)" [class.active]="conversation.id===activeConversationId">
