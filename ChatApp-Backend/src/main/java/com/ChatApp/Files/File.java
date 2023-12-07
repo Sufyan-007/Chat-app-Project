@@ -1,7 +1,6 @@
 package com.ChatApp.Files;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class File {

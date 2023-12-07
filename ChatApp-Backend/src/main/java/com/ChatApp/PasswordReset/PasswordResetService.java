@@ -1,10 +1,6 @@
 package com.ChatApp.PasswordReset;
-
-import com.ChatApp.Exceptions.AppException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.Random;

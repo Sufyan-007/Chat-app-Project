@@ -7,7 +7,6 @@ import com.ChatApp.Users.User;
 import com.ChatApp.Users.UserLoginDto;
 import com.ChatApp.Users.UserRegisterDto;
 import com.ChatApp.Users.UserService;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +27,6 @@ public class AuthController {
     private final FileService fileService;
     private final UserAuthenticationProvider userAuthenticationProvider;
 
-
-    @GetMapping("/")
-    public String Hello(){
-        return "Hello world";
-    }
-
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginDto userLoginDto){
        
@@ -44,7 +37,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestParam("body")  String userData,@RequestParam(value = "file",required = false) MultipartFile profilePicture){
-        UserRegisterDto userRegisterDto= null;
+        UserRegisterDto userRegisterDto;
 
         try {
             userRegisterDto = objectMapper.readValue(userData, UserRegisterDto.class);
@@ -53,9 +46,7 @@ public class AuthController {
         }
         String profilePictureId="";
 
-        if(profilePicture==null || profilePicture.isEmpty()){
-
-        }else{
+        if(profilePicture!=null && !profilePicture.isEmpty()){
             try {
                 profilePictureId = fileService.addFile(profilePicture);
             } catch (IOException e) {

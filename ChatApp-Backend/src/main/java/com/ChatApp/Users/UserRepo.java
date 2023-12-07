@@ -20,6 +20,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
     default Set<User> findTop10Users(String usernameOrEmail){
         return findTop10ByUsernameStartsWithOrEmailStartsWith(usernameOrEmail,usernameOrEmail);
-    };
+    }
 
 }

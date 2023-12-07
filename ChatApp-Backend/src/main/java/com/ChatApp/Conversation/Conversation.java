@@ -2,15 +2,10 @@ package com.ChatApp.Conversation;
 
 import com.ChatApp.Messages.Message;
 import com.ChatApp.Users.User;
-import com.ChatApp.Users.UserDetailsDto;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Set;
 
 @Entity

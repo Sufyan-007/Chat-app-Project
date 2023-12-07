@@ -4,7 +4,6 @@ import com.ChatApp.Conversation.Conversation;
 import com.ChatApp.Conversation.ConversationRepo;
 import com.ChatApp.Conversation.ConversationService;
 import com.ChatApp.Exceptions.AppException;
-import com.ChatApp.Recieved.ReceivedMessageService;
 import com.ChatApp.Users.User;
 import com.ChatApp.Users.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +11,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +20,6 @@ public class MessageService {
     private final MessageRepo messageRepo;
     private final ConversationRepo conversationRepo;
     private final UserRepo userRepo;
-    private final ReceivedMessageService receivedMessageService;
     private final ConversationService conversationService;
 
     @Transactional

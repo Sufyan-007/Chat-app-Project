@@ -24,9 +24,7 @@ public class UserService {
         if (optionalUser.isPresent()){
             throw new AppException("Username already exists", HttpStatus.CONFLICT);
         }
-        if(!profilePictureId.isEmpty()){
-            profilePictureId=profilePictureId;
-        }
+
 
         User user= new User(
                 userRegisterDto.getUsername(),

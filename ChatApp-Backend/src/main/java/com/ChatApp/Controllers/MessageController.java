@@ -1,6 +1,4 @@
 package com.ChatApp.Controllers;
-
-import com.ChatApp.Config.UserAuthenticationProvider;
 import com.ChatApp.Conversation.Conversation;
 import com.ChatApp.Conversation.ConversationDto;
 import com.ChatApp.Conversation.ConversationService;
@@ -11,7 +9,6 @@ import com.ChatApp.Messages.MessageDto;
 import com.ChatApp.Messages.SendMessageDto;
 import com.ChatApp.Messages.MessageService;
 import com.ChatApp.Recieved.ReceivedMessageService;
-import com.ChatApp.WebSocket.WebSocketService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -31,8 +27,6 @@ import java.util.List;
 public class MessageController {
     private final MessageService messageService;
     private final ConversationService conversationService;
-    private final UserAuthenticationProvider userAuthenticationProvider;
-    private final WebSocketService webSocketService;
     private final ReceivedMessageService receivedMessageService;
     private final FileService fileService;
     private final ObjectMapper objectMapper;
@@ -48,9 +42,9 @@ public class MessageController {
     }
 
     @PostMapping("/sendattachment")
-    public ResponseEntity<MessageDto> sendAttachment(@RequestParam("conversationId") int conversationId,@RequestParam(value="file",required=true) MultipartFile file,Authentication authentication){
+    public ResponseEntity<MessageDto> sendAttachment(@RequestParam("conversationId") int conversationId,@RequestParam(value="file") MultipartFile file,Authentication authentication){
         String username= (String) authentication.getPrincipal();
-        String fileId="";
+        String fileId;
         if(file==null|| file.isEmpty()){
             throw new AppException("File is empty", HttpStatus.BAD_REQUEST);
         }
@@ -81,16 +75,14 @@ public class MessageController {
     @PostMapping("/conversations")
     public ResponseEntity<ConversationDto> newConversation(@RequestParam("body") String conversationJson, @RequestParam(value = "file",required = false) MultipartFile groupIcon, Authentication authentication){
         String iconId="";
-        ConversationDto conversation = null;
+        ConversationDto conversation;
         try {
             conversation = objectMapper.readValue(conversationJson, ConversationDto.class);
         } catch (JsonProcessingException e) {
 
             throw new AppException("Invalid conversation format",HttpStatus.BAD_REQUEST);
         }
-        if(groupIcon==null ||groupIcon.isEmpty()){
-
-        }else{
+        if(groupIcon!=null && !groupIcon.isEmpty()){
             try {
                 iconId = fileService.addFile(groupIcon);
             } catch (IOException e) {

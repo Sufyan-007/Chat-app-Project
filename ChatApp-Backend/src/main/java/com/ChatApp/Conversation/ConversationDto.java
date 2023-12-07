@@ -24,7 +24,7 @@ public class ConversationDto {
     public static ConversationDto convertToConversationDto(Conversation conversation, String username){
         String message="";
         String iconUrl="";
-        String description="";
+        String description;
         if(conversation.getLatestMessage()!=null){
             if(conversation.getLatestMessage().isMedia()){
                 message="Media file";
@@ -44,7 +44,7 @@ public class ConversationDto {
 
         }else{
             Set<User> users=conversation.getParticipants();
-            User user2 = users.stream().filter((user1) -> !user1.getUsername().equals(username)).findFirst().get();
+            User user2 = users.stream().filter((user1) -> !user1.getUsername().equals(username)).findFirst().orElseThrow();
             conversationName=user2.getUsername();
             description=user2.getBio();
             if(user2.getProfilePictureUrl()!=null){

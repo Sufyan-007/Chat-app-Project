@@ -7,7 +7,6 @@ import com.ChatApp.Users.User;
 import com.ChatApp.WebSocket.WebSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service

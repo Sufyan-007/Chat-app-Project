@@ -2,14 +2,11 @@ package com.ChatApp.Controllers;
 
 import com.ChatApp.Email.Email;
 import com.ChatApp.Email.EmailService;
-import com.ChatApp.Exceptions.AppException;
 import com.ChatApp.PasswordReset.PasswordResetRecords;
 import com.ChatApp.PasswordReset.PasswordResetService;
 import com.ChatApp.Users.User;
-import com.ChatApp.Users.UserRepo;
 import com.ChatApp.Users.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
