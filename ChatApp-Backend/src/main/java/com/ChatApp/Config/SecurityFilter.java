@@ -26,7 +26,7 @@ public class SecurityFilter {
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         (requests)->{
-                            requests.requestMatchers(HttpMethod.GET,"/login","/register").permitAll()
+                            requests.requestMatchers(HttpMethod.GET,"/login","/register","/hello-world").permitAll()
                                     .requestMatchers("/ws/**").permitAll()
                                     .requestMatchers("/file/**").permitAll()
                                     .requestMatchers(HttpMethod.POST,"/register","/login","/recovery-request","/update-password").permitAll()
