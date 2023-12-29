@@ -44,7 +44,6 @@ public class Message {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    private boolean achievable =false;
 
 
     @Override
@@ -56,7 +55,6 @@ public class Message {
                 ", sender=" + sender +
                 ", sentAt=" + sentAt +
                 ", updatedAt=" + updatedAt +
-                ", achievable=" + achievable +
                 '}';
     }
 }
