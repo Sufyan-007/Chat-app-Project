@@ -16,6 +16,7 @@ public class ReceivedMessageService {
     private final WebSocketService webSocketService;
 
     public void send(Pair<Message,Conversation> messageConversationPair) {
+
         Message message = messageConversationPair.getFirst();
         Conversation conversation = messageConversationPair.getSecond();
         for(User user : conversation.getParticipants()){

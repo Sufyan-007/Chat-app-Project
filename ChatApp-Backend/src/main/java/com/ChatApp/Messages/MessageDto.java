@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class MessageDto {
+    private int messageId;
     private int conversationId;
     private String message;
     private boolean media;
@@ -22,7 +23,7 @@ public class MessageDto {
             messageString="http://localhost:8080/file/download/"+messageString;
         }
         return new MessageDto(
-                message.getConversation().getId(),
+                message.getId(), message.getConversation().getId(),
                 messageString,message.isMedia(),UserDetailsDto.convertToUserDetailsDto( message.getSender()),
                 message.getSentAt(),message.getUpdatedAt()
         );

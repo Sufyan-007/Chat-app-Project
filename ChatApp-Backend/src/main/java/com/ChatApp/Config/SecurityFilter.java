@@ -26,7 +26,7 @@ public class SecurityFilter {
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         (requests)->{
-                            requests.requestMatchers(HttpMethod.GET,"/login","/register","/hello-world").permitAll()
+                            requests.requestMatchers(HttpMethod.GET,"/login","/register","/hello-world","/v3/api-docs","/swagger-ui.html","/swagger-ui/index.html").permitAll()
                                     .requestMatchers("/ws/**").permitAll()
                                     .requestMatchers("/file/**").permitAll()
                                     .requestMatchers(HttpMethod.POST,"/register","/login","/recovery-request","/update-password").permitAll()

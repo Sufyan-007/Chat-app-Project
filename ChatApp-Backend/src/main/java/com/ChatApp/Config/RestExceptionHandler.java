@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 @ControllerAdvice
@@ -23,9 +24,11 @@ public class RestExceptionHandler {
     @ExceptionHandler(value = { IOException.class})
     @ResponseBody
     public ResponseEntity<String> handleException(IOException ex) {
-        System.out.println(ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.BAD_GATEWAY).body("Failed file transfer");
+        if(ex.getMessage().equals("java.io.IOException: Broken pipe")) {
+            return null;
+
+        }
+        return ResponseEntity.ok("File transfer error");
     }
 
     @ExceptionHandler(value = { Exception.class})

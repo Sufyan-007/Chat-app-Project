@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yaml.snakeyaml.util.ArrayStack;
 
 import java.util.*;
 
@@ -68,6 +69,7 @@ public class ConversationService {
         String conversationName="PC-"+username1+"-"+username2;
 //        System.out.println(conversationName);
         Conversation conversation;
+
         synchronized (conversationName.intern()){
             Optional<Conversation> optionalConversation = conversationRepo.findFirstByConversationNameAndGroupChat(conversationName,false);
             //                conversation = conversationRepo.save(newConversation);
