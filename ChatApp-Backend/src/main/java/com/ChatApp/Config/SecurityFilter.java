@@ -28,6 +28,7 @@ public class SecurityFilter {
                         (requests)->{
                             requests.requestMatchers(HttpMethod.GET,"/login","/register","/hello-world","/v3/api-docs","/swagger-ui.html","/swagger-ui/index.html").permitAll()
                                     .requestMatchers("/ws/**").permitAll()
+                                    .requestMatchers("/ws-plain/**").permitAll()
                                     .requestMatchers("/file/**").permitAll()
                                     .requestMatchers(HttpMethod.POST,"/register","/login","/recovery-request","/update-password").permitAll()
                                     .anyRequest().authenticated();

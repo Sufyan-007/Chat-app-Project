@@ -56,7 +56,11 @@ public class TopicWebSocketHandler extends TextWebSocketHandler {
     }
 
     private void subscribe(WebSocketSession session, String topic) {
+        System.out.println("topic");
+        System.out.println(topic);
         topicSubscribers.computeIfAbsent(topic, k -> ConcurrentHashMap.newKeySet()).add(session);
+        System.out.println(topicSubscribers.toString());
+        System.out.println();
         sessionSubscriptions.computeIfAbsent(session, k -> new HashSet<>()).add(topic);
     }
 
@@ -76,6 +80,10 @@ public class TopicWebSocketHandler extends TextWebSocketHandler {
 
     public void broadcastToTopic(String topic, Object message) {
         Set<WebSocketSession> sessions = topicSubscribers.get(topic);
+//        System.out.println(sessions.toArray().length);
+        System.out.println(topic);
+        System.out.println( message.toString());
+        System.out.println("HELLLLLLLOOOOOOOOO");
         if (sessions != null) {
             String payload = toJson(message);
             TextMessage textMessage = new TextMessage(payload);

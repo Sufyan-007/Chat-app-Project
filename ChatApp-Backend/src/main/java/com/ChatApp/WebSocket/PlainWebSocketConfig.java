@@ -18,7 +18,7 @@ public class PlainWebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(topicWebSocketHandler, "/ws-plain")
-                .setAllowedOrigins("http://localhost:4200", "http://localhost:3000");
+                .setAllowedOrigins("*");
     }
 }
 

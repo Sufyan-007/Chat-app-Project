@@ -13,9 +13,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:4200", "http://localhost:3000")
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*")
                 .withSockJS();
-        registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:4200", "http://localhost:3000");
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*");
     }
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry){
