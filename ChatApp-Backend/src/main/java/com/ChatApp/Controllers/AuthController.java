@@ -36,24 +36,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam("body")  String userData,@RequestParam(value = "file",required = false) MultipartFile profilePicture){
-        UserRegisterDto userRegisterDto;
+    public ResponseEntity<String> register(@RequestBody  UserRegisterDto userRegisterDto){
 
-        try {
-            userRegisterDto = objectMapper.readValue(userData, UserRegisterDto.class);
-        } catch (JsonProcessingException e) {
-            throw new AppException("Invalid data format", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
         String profilePictureId="";
-
-        if(profilePicture!=null && !profilePicture.isEmpty()){
-            try {
-                profilePictureId = fileService.addFile(profilePicture);
-            } catch (IOException e) {
-                throw new AppException("Upload error",HttpStatus.BAD_GATEWAY);
-            }
-        }
-
 
         User user= userService.register(userRegisterDto,profilePictureId);
 

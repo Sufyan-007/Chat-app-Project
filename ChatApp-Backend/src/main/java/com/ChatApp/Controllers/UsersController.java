@@ -37,22 +37,10 @@ public class UsersController {
         return ResponseEntity.ok(UserDetailsDto.convertToUserDetailsDto( userService.findByUsername(username)));
     }
     @PostMapping("/user/update")
-    public ResponseEntity<UserDetailsDto> updateUser(@RequestParam("body")  String userData, @RequestParam(value = "file",required = false) MultipartFile profilePicture, Authentication authentication) {
+    public ResponseEntity<UserDetailsDto> updateUser(@RequestBody  UserDetailsDto userDetailsDto, Authentication authentication) {
         String username =(String) authentication.getPrincipal();
-        UserDetailsDto userDetailsDto;
-        try{
-            userDetailsDto = objectMapper.readValue(userData, UserDetailsDto.class);
-        }catch (JsonProcessingException e){
-            throw new AppException("Invalid data format", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
         String profilePictureId="";
-        if(profilePicture!=null && !profilePicture.isEmpty()){
-            try {
-                profilePictureId = fileService.addFile(profilePicture);
-            } catch (IOException e) {
-                throw new AppException("Upload error",HttpStatus.BAD_GATEWAY);
-            }
-        }
         User updatedUser= userService.updateUser(username,userDetailsDto, profilePictureId);
         return ResponseEntity.ok(UserDetailsDto.convertToUserDetailsDto(updatedUser));
     }

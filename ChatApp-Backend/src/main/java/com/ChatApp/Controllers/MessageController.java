@@ -73,23 +73,7 @@ public class MessageController {
 
 
     @PostMapping("/conversations")
-    public ResponseEntity<ConversationDto> newConversation(@RequestParam("body") String conversationJson, @RequestParam(value = "file",required = false) MultipartFile groupIcon, Authentication authentication){
-        String iconId="";
-        ConversationDto conversation;
-        try {
-            conversation = objectMapper.readValue(conversationJson, ConversationDto.class);
-        } catch (JsonProcessingException e) {
-
-            throw new AppException("Invalid conversation format",HttpStatus.BAD_REQUEST);
-        }
-        if(groupIcon!=null && !groupIcon.isEmpty()){
-            try {
-                iconId = fileService.addFile(groupIcon);
-            } catch (IOException e) {
-                throw new AppException("Upload error", HttpStatus.BAD_GATEWAY);
-            }
-        }
-        conversation.setIconUrl(iconId);
+    public ResponseEntity<ConversationDto> newConversation(@RequestBody ConversationDto conversation, Authentication authentication){
         String username= (String) authentication.getPrincipal();
         Conversation createdConversation= conversationService.createGroupConversation(conversation, username);
         return ResponseEntity.ok(ConversationDto.convertToConversationDto(createdConversation,username));
