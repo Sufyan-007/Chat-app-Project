@@ -8,6 +8,7 @@ import com.ChatApp.Users.UserDetailsDto;
 import com.ChatApp.Users.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-
+@SecurityRequirement(name = "bearerAuth")
 public class UsersController {
     private final UserService userService;
     private final ObjectMapper objectMapper;

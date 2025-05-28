@@ -11,6 +11,7 @@ import com.ChatApp.Messages.MessageService;
 import com.ChatApp.Recieved.ReceivedMessageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-
+@SecurityRequirement(name = "bearerAuth")
 public class MessageController {
     private final MessageService messageService;
     private final ConversationService conversationService;
