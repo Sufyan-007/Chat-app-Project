@@ -24,7 +24,7 @@ public class UserDetailsDto {
     public static UserDetailsDto convertToUserDetailsDto(User user){
         String profilePictureUrl = user.getProfilePictureUrl();
         if(profilePictureUrl!=null && !profilePictureUrl.isEmpty()){
-            profilePictureUrl="http://localhost:8080/file/download/"+profilePictureUrl;
+            profilePictureUrl="http://192.1.150.199:8080/file/download/"+profilePictureUrl;
         }
         return new UserDetailsDto(user.getUsername(), user.getName(), user.getEmail(),user.getBio(),profilePictureUrl);}
 

@@ -20,7 +20,7 @@ public class MessageDto {
     public static MessageDto convertToMessageDto(Message message){
         String messageString=message.getMessage();
         if(message.isMedia()){
-            messageString="http://localhost:8080/file/download/"+messageString;
+            messageString="http://192.1.150.199:8080/file/download/"+messageString;
         }
         return new MessageDto(
                 message.getId(), message.getConversation().getId(),

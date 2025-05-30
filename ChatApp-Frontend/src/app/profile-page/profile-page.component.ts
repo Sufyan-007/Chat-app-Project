@@ -66,7 +66,7 @@ export class ProfilePageComponent implements OnInit {
     if (this.profilePicture) {
       data.append('file', this.profilePicture);
     }
-    this.http.post<User>("http://localhost:8080/user/update",data,{headers}).subscribe((response)=>{
+    this.http.post<User>("http://192.1.150.199:8080/user/update",data,{headers}).subscribe((response)=>{
       this.updatedUser=response
       this.close()
     })

@@ -11,7 +11,7 @@ import { Messages } from '../interface/messages';
   providedIn: 'root'
 })
 export class WebSocketService{
-  socket= new SockJS("http://localhost:8080/ws")
+  socket= new SockJS("http://192.1.150.199:8080/ws")
   stompClient= Stomp.over(this.socket)
 
   failCallback= (error:any) =>{
@@ -46,6 +46,7 @@ export class WebSocketService{
       this.stompClient.subscribe("/topic/chat/"+username,(data:any)=>{
         // console.log(data.body);
         this.recievedMessage.next(JSON.parse(data.body));
+        console.log(data)
         
       }, {'Authorization': localStorage.getItem("token"),})
     },

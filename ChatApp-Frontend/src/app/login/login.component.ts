@@ -8,6 +8,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Validator } from '@angular/forms';
 import { catchError } from 'rxjs';
+
+interface Token {
+  token:string
+}
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -31,7 +35,7 @@ export class LoginComponent implements OnInit {
     email: '',
     password: '',
   };
-  private signup_url: string = 'http://localhost:8080/register';
+  private signup_url: string = 'http://192.1.150.199:8080/register';
 
   login_page = true;
 
@@ -40,7 +44,7 @@ export class LoginComponent implements OnInit {
     password: '',
   };
 
-  private login_url: string = 'http://localhost:8080/login';
+  private login_url: string = 'http://192.1.150.199:8080/login';
 
   toggle_page() {
     console.log(this.login_page);
@@ -58,11 +62,11 @@ export class LoginComponent implements OnInit {
     });
 
     this.http
-      .post(this.login_url, data, { headers, responseType: 'text' })
+      .post<Token>(this.login_url, data, { headers })
       .subscribe(
         (response) => {
           console.log(data);
-          localStorage.setItem('token', 'Bearer ' + response);
+          localStorage.setItem('token', 'Bearer ' + response.token);
           localStorage.setItem(
             'username',
             this.loginDetails.username.toLowerCase()
@@ -94,17 +98,19 @@ export class LoginComponent implements OnInit {
       data.append('file', this.profilePicture);
     }
 
+   
     this.http
-      .post(this.signup_url, data, { headers, responseType: 'text' })
+      .post<Token>(this.signup_url, data, { headers })
       .pipe(
         catchError((error) => {
           if (error.status===409){
             alert("Username already in use")
-          } return error;
+          } 
+          throw error
         })
       )
-      .subscribe((response: any) => {
-        localStorage.setItem('token', 'Bearer ' + response);
+      .subscribe((response) => {
+        localStorage.setItem('token', 'Bearer ' + response.token);
         localStorage.setItem('username', this.signupDetails.username.toLowerCase());
 
         var url = localStorage.getItem('redirectUrl');

@@ -68,7 +68,7 @@ export class ConversationService implements OnDestroy {
       >({});
     }
     if (this.conversations) {
-      const url = 'http://localhost:8080/conversations';
+      const url = 'http://192.1.150.199:8080/conversations';
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: String(localStorage.getItem('token')),
@@ -92,7 +92,7 @@ export class ConversationService implements OnDestroy {
   getConversationById(conversationId: number): Subject<Conversation> {
     const conv = new ReplaySubject<Conversation>();
     if (!this.conversations[conversationId]) {
-      const url = 'http://localhost:8080/conversations/' + conversationId;
+      const url = 'http://192.1.150.199:8080/conversations/' + conversationId;
       // console.log('in Conversation : ' + url);
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ export class ConversationService implements OnDestroy {
   }
 
   getMessages(conversationId: number): Observable<Messages[]> {
-    const url = `http://localhost:8080/conversations/messages/${conversationId}`;
+    const url = `http://192.1.150.199:8080/conversations/messages/${conversationId}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: String(localStorage.getItem('token')),
@@ -134,7 +134,7 @@ export class ConversationService implements OnDestroy {
   }
 
   sendMessage(message: String, conversationId: number): Promise<Messages> {
-    const url = `http://localhost:8080/sendmessage`;
+    const url = `http://192.1.150.199:8080/sendmessage`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: String(localStorage.getItem('token')),
@@ -147,7 +147,7 @@ export class ConversationService implements OnDestroy {
     return lastValueFrom(response);
   }
   sendNewMessage(message: String, sentTo: string): Promise<Messages> {
-    const url = `http://localhost:8080/sendmessage`;
+    const url = `http://192.1.150.199:8080/sendmessage`;
     const headers = new HttpHeaders({
       Authorization: String(localStorage.getItem('token')),
     });
@@ -160,7 +160,7 @@ export class ConversationService implements OnDestroy {
   }
 
   sendAttachment(conversationId: number, attachment: File) {
-    const url = `http://localhost:8080/sendattachment`;
+    const url = `http://192.1.150.199:8080/sendattachment`;
     const headers = new HttpHeaders({
       Authorization: String(localStorage.getItem('token')),
     });
@@ -190,7 +190,7 @@ export class ConversationService implements OnDestroy {
       data.append('file', groupIcon);
     }
 
-    const url = `http://localhost:8080/conversations`;
+    const url = `http://192.1.150.199:8080/conversations`;
     const headers = new HttpHeaders({
       Authorization: String(localStorage.getItem('token')),
     });

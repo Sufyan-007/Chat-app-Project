@@ -11,9 +11,9 @@ export class UserService {
   constructor(private http:HttpClient) { }
 
   findUsers(username:string):Observable<User[]> {
-    const url="http://localhost:8080/users"
+    const url="http://192.1.150.199:8080/users"
     const headers = new HttpHeaders({
-      'Content-Type': 'application/plain',
+      'Content-Type': 'text/plain',
       'Authorization': String(localStorage.getItem('token'))
     })
     return  this.http.post<User[]>(url,username, {headers: headers}).pipe(map(response => {
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   findUser(username:string):Observable<User> {
-    const url="http://localhost:8080/user/"+username
+    const url="http://192.1.150.199:8080/user/"+username
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': String(localStorage.getItem('token'))

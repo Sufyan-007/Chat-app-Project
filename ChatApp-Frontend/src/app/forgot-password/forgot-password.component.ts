@@ -20,7 +20,7 @@ export class ForgotPasswordComponent {
 
   sendReconveryRequest(){
     console.log(this.emailOrUsername)
-    this.http.post("http://localhost:8080/recovery-request", this.emailOrUsername).subscribe((response)=>{
+    this.http.post("http://192.1.150.199:8080/recovery-request", this.emailOrUsername).subscribe((response)=>{
       alert("Instructions sent to your email")
       this.toggleForm()
     })
@@ -30,7 +30,7 @@ export class ForgotPasswordComponent {
     data.append("token",this.recoveryCode)
     data.append("newPassword",this.newPassword)
     data.append("username",this.emailOrUsername)
-    this.http.post("http://localhost:8080/update-password", data).subscribe((response)=>{
+    this.http.post("http://192.1.150.199:8080/update-password", data).subscribe((response)=>{
       alert("Password updated")
       this.router.navigate(["/login"])
     })

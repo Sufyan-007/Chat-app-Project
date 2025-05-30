@@ -30,8 +30,8 @@ public class SecurityFilter {
                                     .requestMatchers("/ws/**").permitAll()
                                     .requestMatchers("/ws-plain/**").permitAll()
                                     .requestMatchers("/file/**").permitAll()
-                                    .requestMatchers("/oauth2/**").permitAll()
                                     .requestMatchers("/auth/**").permitAll()
+
                                     .requestMatchers(HttpMethod.POST,"/register","/login","/recovery-request","/update-password").permitAll()
                                     .anyRequest().authenticated();
 

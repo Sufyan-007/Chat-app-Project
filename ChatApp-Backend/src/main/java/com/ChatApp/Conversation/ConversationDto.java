@@ -39,7 +39,7 @@ public class ConversationDto {
             conversationName = conversation.getConversationName();
             description=conversation.getDescription();
             if(iconUrl!=null && !iconUrl.isEmpty()){
-                iconUrl="http://localhost:8080/file/download/"+iconUrl;
+                iconUrl="http://192.1.150.199:8080/file/download/"+iconUrl;
             }
 
         }else{
@@ -48,7 +48,7 @@ public class ConversationDto {
             conversationName=user2.getUsername();
             description=user2.getBio();
             if(user2.getProfilePictureUrl()!=null){
-                iconUrl="http://localhost:8080/file/download/"+ user2.getProfilePictureUrl();
+                iconUrl="http://192.1.150.199:8080/file/download/"+ user2.getProfilePictureUrl();
             }
         }
         return new ConversationDto(conversation.getId(), conversation.isGroupChat(),
