@@ -183,18 +183,18 @@ export class ConversationService implements OnDestroy {
       description: description,
       users: users,
     };
-    const body = JSON.stringify(newConv);
-    const data = new FormData();
-    data.append('body', body);
-    if (groupIcon != null) {
-      data.append('file', groupIcon);
-    }
+    // const body = JSON.stringify(newConv);
+    // const data = new FormData();
+    // data.append('body', body);
+    // if (groupIcon != null) {
+      // data.append('file', groupIcon);
+    // }
 
     const url = `http://192.1.150.199:8080/conversations`;
     const headers = new HttpHeaders({
       Authorization: String(localStorage.getItem('token')),
     });
 
-    return this.http.post<Conversation>(url, data, { headers });
+    return this.http.post<Conversation>(url, newConv, { headers });
   }
 }

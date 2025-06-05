@@ -59,4 +59,21 @@ public class MessageService {
         );
         return messageRepo.findByConversation(conversation);
     }
+
+    @Transactional
+    public void broadCastMessage(SendMessageDto sendMessageDto,String userName){
+        User self = userRepo.findByUsername(userName).orElseThrow();
+        List<User> users = userRepo.findAll();
+        users.forEach(user -> {
+            if(user.getId()!= self.getId()){
+                SendMessageDto sendToUser = new SendMessageDto();
+                sendToUser.setMessage(sendMessageDto.getMessage());
+                sendToUser.setMedia(sendToUser.isMedia());
+                sendToUser.setSentTo(user.getUsername());
+
+                newMessage(sendToUser,self.getUsername());
+            }
+        });
+
+    }
 }

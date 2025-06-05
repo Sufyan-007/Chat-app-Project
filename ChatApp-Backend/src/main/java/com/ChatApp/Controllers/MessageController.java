@@ -9,6 +9,7 @@ import com.ChatApp.Messages.MessageDto;
 import com.ChatApp.Messages.SendMessageDto;
 import com.ChatApp.Messages.MessageService;
 import com.ChatApp.Recieved.ReceivedMessageService;
+import com.ChatApp.Users.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -80,6 +82,12 @@ public class MessageController {
         return ResponseEntity.ok(ConversationDto.convertToConversationDto(createdConversation,username));
     }
 
+    @PostMapping("/broadcast")
+    public ResponseEntity<SendMessageDto> broadcastMessage(@RequestBody SendMessageDto sendMessageDto, Authentication authentication){
+        String username = (String) authentication.getPrincipal();
+        messageService.broadCastMessage(sendMessageDto,username);
+        return ResponseEntity.ok(sendMessageDto);
+    }
 
 
     @GetMapping("/conversations/{conversationId}")

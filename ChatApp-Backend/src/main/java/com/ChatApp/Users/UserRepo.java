@@ -2,6 +2,7 @@ package com.ChatApp.Users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
     Set<User> findTop10ByUsernameStartsWithOrEmailStartsWith(String username,String email);
 
+    List<User> findAll();
 
 
     Optional<User> findByUsernameOrEmail(String username,String email);

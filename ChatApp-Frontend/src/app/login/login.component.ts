@@ -90,17 +90,17 @@ export class LoginComponent implements OnInit {
 
   signup() {
     console.log(this.signupDetails);
-    const body = JSON.stringify(this.signupDetails);
+    // const body = JSON.stringify(this.signupDetails);
     const headers = new HttpHeaders({});
-    const data = new FormData();
-    data.append('body', body);
-    if (this.profilePicture) {
-      data.append('file', this.profilePicture);
-    }
+    // const data = new FormData();
+    // data.append('body', body);
+    // if (this.profilePicture) {
+    //   data.append('file', this.profilePicture);
+    // }
 
    
     this.http
-      .post<Token>(this.signup_url, data, { headers })
+      .post<Token>(this.signup_url, this.signupDetails, { headers })
       .pipe(
         catchError((error) => {
           if (error.status===409){
